@@ -9,7 +9,7 @@ using PISS.Models;
 namespace PISS.Filters
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
-    public sealed class InitializeSimpleMembershipAttribute : ActionFilterAttribute
+    public sealed class InitializeSystemAttribute : ActionFilterAttribute
     {
         private static SimpleMembershipInitializer _initializer;
         private static object _initializerLock = new object();
@@ -25,20 +25,14 @@ namespace PISS.Filters
         {
             public SimpleMembershipInitializer()
             {
-                Database.SetInitializer<UsersContext>(null);
+                Database.SetInitializer(new SystemDatabaseInitializer());
 
                 try
                 {
-                    using (var context = new UsersContext())
+                    using (var context = new SystemContext())
                     {
-                        if (!context.Database.Exists())
-                        {
-                            // Create the SimpleMembership database without Entity Framework migration schema
-                            ((IObjectContextAdapter)context).ObjectContext.CreateDatabase();
-                        }
+                        context.Database.Initialize(false);
                     }
-
-                    WebSecurity.InitializeDatabaseConnection("DefaultConnection", "UserProfile", "UserId", "UserName", autoCreateTables: true);
                 }
                 catch (Exception ex)
                 {
