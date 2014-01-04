@@ -1,0 +1,7 @@
+﻿<ul id="menu">
+    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+    @if(Roles.IsUserInRole("Admin"))
+    {
+        <li>@Html.ActionLink("Administration", "Index", "Administration" )</li>
+    }
+</ul>

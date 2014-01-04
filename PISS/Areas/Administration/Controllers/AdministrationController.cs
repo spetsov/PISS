@@ -4,15 +4,15 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace PISS.Controllers
+namespace PISS.Areas.Administration.Controllers
 {
-    public class HomeController : Controller
+    [Authorize(Roles = "Admin")]
+    public class AdministrationController : Controller
     {
         public ActionResult Index()
         {
-            ViewBag.Message = "Modify this template to jump-start your ASP.NET MVC application.";
-
             return View();
         }
+
     }
 }

@@ -12,7 +12,6 @@ using PISS.Models;
 
 namespace PISS.Controllers
 {
-    [Authorize]
     public class AccountController : Controller
     {
         //
