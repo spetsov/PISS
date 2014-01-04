@@ -12,7 +12,7 @@ namespace PISS.Models
     {
         protected override void Seed(SystemContext context)
         {
-            WebSecurity.InitializeDatabaseConnection("DefaultConnection", "UserProfile", "UserId", "UserName", autoCreateTables: true);
+            WebSecurity.InitializeDatabaseConnection("DefaultConnection", "UserProfile", "UserId", "Email", autoCreateTables: true);
 
             var roles = (SimpleRoleProvider)System.Web.Security.Roles.Provider;
             var membership = (SimpleMembershipProvider)System.Web.Security.Membership.Provider;
