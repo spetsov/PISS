@@ -8,7 +8,6 @@ using System.Web.Security;
 using DotNetOpenAuth.AspNet;
 using Microsoft.Web.WebPages.OAuth;
 using WebMatrix.WebData;
-using PISS.Filters;
 using PISS.Models;
 
 namespace PISS.Controllers
@@ -79,6 +78,7 @@ namespace PISS.Controllers
                 try
                 {
                     WebSecurity.CreateUserAndAccount(model.Email, model.Password, true);
+                    Roles.AddUserToRole(model.Email, model.RoleName);
 
                     // TODO: move this to the administration
                     using(var db = new SystemContext())

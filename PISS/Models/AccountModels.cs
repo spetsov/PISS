@@ -54,6 +54,8 @@ namespace PISS.Models
     public class RegisterModel
     {
         [Required]
+        [DataType(DataType.EmailAddress)]
+        [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
 
@@ -67,6 +69,10 @@ namespace PISS.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        [Required]
+        [Display(Name = "I am a:")]
+        public string RoleName { get; set; }
     }
 
     public class ExternalLogin

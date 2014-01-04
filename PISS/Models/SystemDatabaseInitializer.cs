@@ -8,12 +8,19 @@ using WebMatrix.WebData;
 
 namespace PISS.Models
 {
-    public class SystemDatabaseInitializer : DropCreateDatabaseIfModelChanges<SystemContext>
+    public class SystemDatabaseInitializer : IDatabaseInitializer<SystemContext>
     {
-        protected override void Seed(SystemContext context)
+        public void InitializeDatabase(SystemContext context)
         {
+            context.Database.CreateIfNotExists();
+
             WebSecurity.InitializeDatabaseConnection("DefaultConnection", "UserProfile", "UserId", "Email", autoCreateTables: true);
 
+            this.Seed(context);
+        }
+
+        protected void Seed(SystemContext context)
+        {
             var roles = (SimpleRoleProvider)System.Web.Security.Roles.Provider;
             var membership = (SimpleMembershipProvider)System.Web.Security.Membership.Provider;
 

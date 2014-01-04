@@ -16,6 +16,8 @@ namespace PISS
     {
         protected void Application_Start()
         {
+            SystemInitializer.Initialize();
+
             AreaRegistration.RegisterAllAreas();
 
             WebApiConfig.Register(GlobalConfiguration.Configuration);
