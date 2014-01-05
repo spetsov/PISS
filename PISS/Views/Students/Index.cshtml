@@ -1,0 +1,13 @@
+﻿<h2>Upload your assignment:</h2>
+
+<form method="post" action='@Url.Action("UploadFiles", this.Model)' style="width:45%">
+    <div>
+        @(Html.Kendo().Upload()
+            .Name("files").Multiple(false)
+        )
+        <p>
+            <input type="submit" value="Submit" class="k-button" />
+        </p>
+    </div>
+</form>
+

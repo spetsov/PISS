@@ -4,4 +4,8 @@
     {
         <li>@Html.ActionLink("Administration", "Index", "Administration" )</li>
     }
+    @if(Roles.IsUserInRole("Student"))
+    {
+        <li>@Html.ActionLink("Students", "Index", "Students" )</li>
+    }
 </ul>

@@ -7,6 +7,16 @@
         <meta name="viewport" content="width=device-width" />
         @Styles.Render("~/Content/css")
         @Scripts.Render("~/bundles/modernizr")
+        @Scripts.Render("~/bundles/jquery")
+
+    <link rel="stylesheet" href="@Url.Content("~/Content/kendo/kendo.common.min.css")">
+    <link rel="stylesheet" href="@Url.Content("~/Content/kendo/kendo.rtl.min.css")">
+    <link rel="stylesheet" href="@Url.Content("~/Content/kendo/kendo.default.min.css")">
+    <script src="@Url.Content("~/Scripts/kendo.web.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/kendo.aspnetmvc.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/kendo.timezones.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/console.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/prettify.min.js")"></script>
     </head>
     <body>
         <header>
@@ -38,7 +48,6 @@
             </div>
         </footer>
 
-        @Scripts.Render("~/bundles/jquery")
         @RenderSection("scripts", required: false)
     </body>
 </html>
