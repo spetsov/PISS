@@ -76,17 +76,8 @@ namespace PISS.Controllers
                 // Attempt to register the user
                 try
                 {
-                    WebSecurity.CreateUserAndAccount(model.Email, model.Password, true);
+                    WebSecurity.CreateUserAndAccount(model.Email, model.Password, null, true);
                     Roles.AddUserToRole(model.Email, model.RoleName);
-
-                    // TODO: move this to the administration
-                    using(var db = new SystemContext())
-                    {
-                        string query = "select ConfirmationToken from webpages_Membership where UserId = (select UserId from UserProfile where Email = '{0}')";
-
-                        string token = db.Database.SqlQuery<string>(query, model.Email).FirstOrDefault();
-                        WebSecurity.ConfirmAccount(token);
-                    }
 
                     return RedirectToAction("Index", "Home");
                 }

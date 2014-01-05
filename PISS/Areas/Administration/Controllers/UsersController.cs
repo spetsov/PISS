@@ -24,6 +24,15 @@ namespace PISS.Areas.Administration.Controllers
             return Json(this.GetMembershipUsers(request.Page, request.PageSize).ToDataSourceResult(request));
         }
 
+        public ActionResult ApproveUser(string email)
+        {
+            using (UserProfilesRepository repo = new UserProfilesRepository())
+            {
+                repo.ApproveUser(email);
+            }
+            return View("Index");
+        }
+
         private IList<UserViewModel> GetMembershipUsers(int pageIndex, int pageSize)
         {
             using (UserProfilesRepository repo = new UserProfilesRepository())

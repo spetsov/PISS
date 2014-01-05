@@ -5,9 +5,11 @@
   .Name("Grid").Columns(columns =>
     {
         columns.Bound(u => u.Email);
-        columns.Bound(u => u.IsConfirmed);
-        
+        columns
+            .Bound(u => u.IsConfirmed)
+            .ClientTemplate("<input type='checkbox' #= IsConfirmed ? checked='checked':'' # class='chkbx' />");
     })
+    .Filterable()
     .Sortable()
     .Pageable()
     .DataSource(dataSource => dataSource
