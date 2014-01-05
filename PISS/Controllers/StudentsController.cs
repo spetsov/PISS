@@ -20,7 +20,7 @@ namespace PISS.Controllers
             var currentUserId = WebSecurity.GetUserId(User.Identity.Name);
             using (DiplomasRepository repo = new DiplomasRepository())
             {
-                model = repo.GetQuery().Where(d => d.StudentId == currentUserId).FirstOrDefault();
+                model = repo.GetQuery("АssignmentFile").Where(d => d.StudentId == currentUserId).FirstOrDefault();
                 if (model == null)
                 {
                     model = new Diploma()

@@ -188,6 +188,7 @@
     <Compile Include="Areas\Administration\Controllers\UsersController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Areas\Administration\Controllers\AdministrationController.cs" />
+    <Compile Include="Controllers\DownloadController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="App_Start\SystemInitializer.cs" />
     <Compile Include="Controllers\StudentsController.cs" />

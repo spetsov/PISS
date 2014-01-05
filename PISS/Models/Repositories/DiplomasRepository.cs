@@ -19,8 +19,9 @@ namespace PISS.Models.Repositories
             {
                 var newFile = repo.Add(new File()
                 {
-                    Content = new byte[file.ContentLength + 10],
-                    MimeType = file.ContentType
+                    Content = new byte[file.ContentLength],
+                    MimeType = file.ContentType,
+                    FileName = file.FileName
                 });
 
                 int numBytesToRead = file.ContentLength;

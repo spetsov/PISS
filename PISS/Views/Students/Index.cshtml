@@ -11,3 +11,6 @@
     </div>
 </form>
 
+<h2>Your uploaded assignments:</h2>
+<a href='@Url.Action("Index", "Download", new { id = this.Model.АssignmentFile.Id})' target = "_blank">@this.Model.АssignmentFile.FileName</a>
+

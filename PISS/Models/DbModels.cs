@@ -103,5 +103,6 @@ namespace PISS.Models
         public int Id { get; set; }
         public Byte[] Content { get; set; }
         public string MimeType { get; set; }
+        public string FileName { get; set; }
     }
 }
