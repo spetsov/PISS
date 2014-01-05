@@ -87,5 +87,6 @@ namespace PISS.Models
         public string Email { get; set; }
         public int UserId { get; set; }
         public bool IsConfirmed { get; set; }
+        public string RoleName { get; set; }
     }
 }

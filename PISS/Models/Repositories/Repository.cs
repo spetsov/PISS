@@ -30,6 +30,11 @@ namespace PISS.Models.Repositories
             return context.Set<T>().Skip(offset).Take(pageSize);
         }
 
+        public virtual IQueryable<T> GetQuery()
+        {
+            return context.Set<T>();
+        }
+
         public virtual T Get(T entry)
         {
             return context.Entry<T>(entry).Entity;

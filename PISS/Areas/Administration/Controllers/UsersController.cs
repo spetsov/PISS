@@ -24,6 +24,7 @@ namespace PISS.Areas.Administration.Controllers
             return Json(this.GetMembershipUsers(request.Page, request.PageSize).ToDataSourceResult(request));
         }
 
+        [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult ApproveUser(string email)
         {
             using (UserProfilesRepository repo = new UserProfilesRepository())
@@ -31,6 +32,26 @@ namespace PISS.Areas.Administration.Controllers
                 repo.ApproveUser(email);
             }
             return View("Index");
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult DeleteUser([DataSourceRequest] DataSourceRequest request, UserViewModel user)
+        {
+            if (user != null)
+            {
+                using (UserProfilesRepository repo = new UserProfilesRepository())
+                {
+                    repo.DeleteUser(user.Email);
+                    var profile = repo.GetQuery().Where(u => u.UserId == user.UserId).FirstOrDefault();
+                    if (profile != null)
+                    {
+                        repo.Delete(profile);
+                    }
+                    repo.SaveChanges();
+                }
+            }
+
+            return Json(new[] { user }.ToDataSourceResult(request, ModelState));
         }
 
         private IList<UserViewModel> GetMembershipUsers(int pageIndex, int pageSize)

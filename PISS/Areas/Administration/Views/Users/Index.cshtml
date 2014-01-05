@@ -5,9 +5,11 @@
   .Name("Grid").Columns(columns =>
     {
         columns.Bound(u => u.Email);
+        columns.Bound(u => u.RoleName);
         columns
             .Bound(u => u.IsConfirmed)
             .ClientTemplate("<input type='checkbox' #= IsConfirmed ? checked='checked':'' # class='chkbx' />");
+        columns.Command(command => { command.Custom("Activate"); command.Destroy(); });
     })
     .Filterable()
     .Sortable()
@@ -15,5 +17,7 @@
     .DataSource(dataSource => dataSource
             .Ajax()
             .PageSize(20)
-            .Read(read => read.Action("GetAll", "Users")))
+            .Model(model => model.Id(u => u.UserId))
+            .Read(read => read.Action("GetAll", "Users"))
+            .Destroy(update => update.Action("DeleteUser","Users")))
 )
