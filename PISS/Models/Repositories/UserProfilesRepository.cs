@@ -20,10 +20,16 @@ namespace PISS.Models.Repositories
 
         public void ApproveUser(string email)
         {
-                string query = "select ConfirmationToken from webpages_Membership where UserId = (select UserId from UserProfile where Email = '{0}')";
+            string query = "select ConfirmationToken from webpages_Membership as m Join UserProfile as p On m.UserId = p.UserId where p.Email = {0}";
 
-                string token = this.Context.Database.SqlQuery<string>(query, email).FirstOrDefault();
-                WebSecurity.ConfirmAccount(token);
+            string token = this.Context.Database.SqlQuery<string>(query, email).FirstOrDefault();
+            if (token != null)
+            {
+                if (WebSecurity.ConfirmAccount(token))
+                {
+                    // TODO: Send email
+                }
+            }
         }
 
         public void DeleteUser(string email)

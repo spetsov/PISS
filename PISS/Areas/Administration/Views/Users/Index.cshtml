@@ -8,8 +8,8 @@
         columns.Bound(u => u.RoleName);
         columns
             .Bound(u => u.IsConfirmed)
-            .ClientTemplate("<input type='checkbox' #= IsConfirmed ? checked='checked':'' # class='chkbx' />");
-        columns.Command(command => { command.Custom("Activate"); command.Destroy(); });
+            .ClientTemplate("<a class='k-button k-button-icontext' #= IsConfirmed ? \"style='display:none'\" : '' # href='/Administration/Users/ApproveUser?email=#= Email#'>Activate</a>");
+        columns.Command(command => { command.Destroy(); });
     })
     .Filterable()
     .Sortable()

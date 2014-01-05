@@ -24,14 +24,13 @@ namespace PISS.Areas.Administration.Controllers
             return Json(this.GetMembershipUsers(request.Page, request.PageSize).ToDataSourceResult(request));
         }
 
-        [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult ApproveUser(string email)
         {
             using (UserProfilesRepository repo = new UserProfilesRepository())
             {
                 repo.ApproveUser(email);
             }
-            return View("Index");
+            return RedirectToAction("Index");
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
