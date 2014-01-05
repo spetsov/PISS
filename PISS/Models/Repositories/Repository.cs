@@ -7,8 +7,9 @@ using System.Web;
 
 namespace PISS.Models.Repositories
 {
-    public abstract class Repository<T> : IRepository<T> where T:class
+    public abstract class Repository<T> : IRepository<T> where T : class
     {
+        private bool disposed = false;
         private SystemContext context { get; set; }
 
         public Repository()
@@ -58,8 +59,23 @@ namespace PISS.Models.Repositories
 
         public void Dispose()
         {
-            this.context.Dispose();
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposed)
+            {
+                if (disposing)
+                {
+                    this.context.Dispose();
+                }
+                disposed = true;
+            }
+        }
+
+        ~Repository() { Dispose(false); }
 
         public void SaveChanges()
         {

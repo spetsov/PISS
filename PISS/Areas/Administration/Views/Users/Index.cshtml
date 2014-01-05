@@ -1,0 +1,17 @@
+﻿
+<h3>Edit users</h3>
+
+@(Html.Kendo().Grid<PISS.Models.UserViewModel>()
+  .Name("Grid").Columns(columns =>
+    {
+        columns.Bound(u => u.Email);
+        columns.Bound(u => u.IsConfirmed);
+        
+    })
+    .Sortable()
+    .Pageable()
+    .DataSource(dataSource => dataSource
+            .Ajax()
+            .PageSize(20)
+            .Read(read => read.Action("GetAll", "Users")))
+)

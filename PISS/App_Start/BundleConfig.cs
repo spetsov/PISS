@@ -38,6 +38,12 @@ namespace PISS
                         "~/Content/themes/base/jquery.ui.datepicker.css",
                         "~/Content/themes/base/jquery.ui.progressbar.css",
                         "~/Content/themes/base/jquery.ui.theme.css"));
+
+            bundles.Add(new StyleBundle("~/Content/kendo").Include(
+                "~/Content/kendo/kendo.common.min.css",
+                "~/Content/kendo/kendo.rtl.min.css",
+                "~/Content/kendo/kendo.default.min.css"
+                ));
         }
     }
 }

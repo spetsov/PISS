@@ -81,4 +81,11 @@ namespace PISS.Models
         public string ProviderDisplayName { get; set; }
         public string ProviderUserId { get; set; }
     }
+
+    public class UserViewModel
+    {
+        public string Email { get; set; }
+        public int UserId { get; set; }
+        public bool IsConfirmed { get; set; }
+    }
 }
