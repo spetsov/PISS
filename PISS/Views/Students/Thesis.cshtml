@@ -1,0 +1,45 @@
+﻿@model PISS.Models.Thesis
+
+@if (this.Model == null)
+{
+    <h2>Your assignment is not approved. Please wait for its approval or upload an assignment if you haven't already.</h2>
+}
+else
+{
+    <h2>Upload your thesis:</h2>
+    <form method="post" action='@Url.Action("UploadThesis", this.Model)' style="width:45%">
+        <div>
+            <fieldset>
+                <legend>Upload your thesis</legend>
+                <ol>
+                    <li>
+                        @Html.LabelFor(m => m.Text)
+                        @Html.TextAreaFor(m => m.Text)
+                    </li>
+                    <li>
+                        @Html.LabelFor(m => m.Summary_EN)
+                        @Html.TextAreaFor(m => m.Summary_EN)
+                    </li>
+                    <li>
+                        @Html.LabelFor(m => m.Summary_BG)
+                        @Html.TextAreaFor(m => m.Summary_BG)
+                    </li>
+                    <li>
+                        <h2>Upload your source code:</h2>
+                        @(Html.Kendo().Upload()
+            .Name("files").Multiple(false))
+                    </li>
+                </ol>
+                <input type="submit" value="Submit" class="k-button" />
+            </fieldset>
+    </form>
+    
+    if(this.Model.SourceCodeFile != null)
+    {
+        <h2>Your uploaded assignments:</h2>
+        <a href='@Url.Action("Index", "Download", new { id = this.Model.SourceCodeFile.Id })' target = "_blank">@this.Model.SourceCodeFile.FileName</a>
+    }
+}
+
+
+

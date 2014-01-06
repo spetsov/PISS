@@ -202,6 +202,7 @@
     <Compile Include="Models\Repositories\FilesRepository.cs" />
     <Compile Include="Models\Repositories\IRepository.cs" />
     <Compile Include="Models\Repositories\Repository.cs" />
+    <Compile Include="Models\Repositories\ThesisRepository.cs" />
     <Compile Include="Models\Repositories\UserProfilesRepository.cs" />
     <Compile Include="Models\SystemDatabaseInitializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -348,6 +349,7 @@
     <Content Include="Scripts\prettify.min.js.map" />
     <Content Include="Views\Students\Index.cshtml" />
     <Content Include="Views\Students\Result.cshtml" />
+    <Content Include="Views\Students\Thesis.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

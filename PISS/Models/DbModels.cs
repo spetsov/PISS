@@ -50,8 +50,41 @@ namespace PISS.Models
         public int? ReviewFileId { get; set; }
         [ForeignKey("ReviewFileId")]
         public File ReviewFile { get; set; }
+        public int? ThesisId { get; set; }
+        [ForeignKey("ThesisId")]
+        public Thesis Thesis { get; set; }
         public ICollection<DefenceCommision> DefenceCommisions { get; set; } 
     }
+
+    [Table("Thesis")]
+    public class Thesis
+    {
+        [Key]
+        [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
+
+        [Column(TypeName = "ntext")]
+        [MaxLength]
+        [Required]
+        [Display(Name = "Text")]
+        public string Text { get; set; }
+
+        [Column(TypeName = "ntext")]
+        [MaxLength]
+        [Display(Name = "Summary in English")]
+        public string Summary_EN { get; set; }
+
+        [Column(TypeName = "ntext")]
+        [MaxLength]
+        [Display(Name = "Summary in Bulgarian")]
+        public string Summary_BG { get; set; }
+
+        public int? SourceCodeFileId { get; set; }
+
+        [ForeignKey("SourceCodeFileId")]
+        public File SourceCodeFile { get; set; }
+    }
+
 
     [Table("DefenceCommision")]
     public class DefenceCommision

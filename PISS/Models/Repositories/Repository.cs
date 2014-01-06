@@ -40,6 +40,11 @@ namespace PISS.Models.Repositories
             return context.Set<T>().Include(includePath);
         }
 
+        public virtual IQueryable<T> GetQuery(string outer, string inner)
+        {
+            return context.Set<T>().Include(outer).Include(inner);
+        }
+
         public virtual T Get(T entry)
         {
             return context.Entry<T>(entry).Entity;
