@@ -36,7 +36,7 @@ else
     
     if(this.Model.SourceCodeFile != null)
     {
-        <h2>Your uploaded assignments:</h2>
+        <h2>Your uploaded source code:</h2>
         <a href='@Url.Action("Index", "Download", new { id = this.Model.SourceCodeFile.Id })' target = "_blank">@this.Model.SourceCodeFile.FileName</a>
     }
 }
