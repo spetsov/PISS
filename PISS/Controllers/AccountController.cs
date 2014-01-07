@@ -63,6 +63,12 @@ namespace PISS.Controllers
             return View();
         }
 
+        [AllowAnonymous]
+        public ActionResult RegistrationSuccessful()
+        {
+            return View();
+        }
+
         //
         // POST: /Account/Register
 
@@ -79,7 +85,7 @@ namespace PISS.Controllers
                     WebSecurity.CreateUserAndAccount(model.Email, model.Password, null, true);
                     Roles.AddUserToRole(model.Email, model.RoleName);
 
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("RegistrationSuccessful");
                 }
                 catch (MembershipCreateUserException e)
                 {
