@@ -6,13 +6,6 @@ using System.Web;
 
 namespace PISS.Models
 {
-    public class DiplomaTeacherViewModel
-    {
-        public Diploma Diploma { get; set; }
-
-        [Display(Name = "Add notes (Optional)")]
-        public string Notes { get; set; }
-    }
 
     public enum ApprovedStatus
     {

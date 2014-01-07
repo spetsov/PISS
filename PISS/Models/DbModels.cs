@@ -38,21 +38,34 @@ namespace PISS.Models
         [Key]
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        public int? АssignmentFileId { get; set; }
-        [ForeignKey("АssignmentFileId")]
-        public File АssignmentFile { get; set; }
+
         public PISS.Models.ApprovedStatus Approved { get; set; }
+
         public DateTime? DefenceDate { get; set; }
+
+        [Display(Name = "Grade")]
+        public int? Grade { get; set; }
+
         public int StudentId { get; set; }
         [ForeignKey("StudentId")]
         public UserProfile Student { get; set; }
-        public int? Grade { get; set; }
+
+        public int? АssignmentFileId { get; set; }
+        [ForeignKey("АssignmentFileId")]
+        public File АssignmentFile { get; set; }
+
         public int? ReviewFileId { get; set; }
         [ForeignKey("ReviewFileId")]
         public File ReviewFile { get; set; }
+
+        [Column(TypeName = "ntext")]
+        [MaxLength]
+        public string ReviewNotes { get; set; }
+
         public int? ThesisId { get; set; }
         [ForeignKey("ThesisId")]
         public Thesis Thesis { get; set; }
+
         public ICollection<DefenceCommision> DefenceCommisions { get; set; } 
     }
 
