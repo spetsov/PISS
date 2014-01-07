@@ -25,24 +25,14 @@ namespace PISS.Models.Repositories
             }
         }
 
-        public virtual IEnumerable<T> GetAll(int pageSize, int offset)
-        {
-            return context.Set<T>().Skip(offset).Take(pageSize);
-        }
-
         public virtual IQueryable<T> GetQuery()
         {
             return context.Set<T>();
         }
 
-        public virtual IQueryable<T> GetQuery(string includePath)
+        public virtual DbQuery<T> Include(string includePath)
         {
             return context.Set<T>().Include(includePath);
-        }
-
-        public virtual IQueryable<T> GetQuery(string outer, string inner)
-        {
-            return context.Set<T>().Include(outer).Include(inner);
         }
 
         public virtual T Get(T entry)

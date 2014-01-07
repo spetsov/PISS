@@ -6,7 +6,12 @@
     }
     @if(Roles.IsUserInRole("Student"))
     {
-        <li>@Html.ActionLink("Assignments", "Index", "Students" )</li>
-        <li>@Html.ActionLink("Thesis", "Thesis", "Students" )</li>
+        <li>@Html.ActionLink("MyAssignment", "Index", "Students" )</li>
+        <li>@Html.ActionLink("MyThesis", "Thesis", "Students" )</li>
+    }
+    @if(Roles.IsUserInRole("Teacher"))
+    {
+        <li>@Html.ActionLink("AllStudents", "Index", "Teacher" )</li>
+        <li>@Html.ActionLink("MyStudents", "MyStudents", "Teacher" )</li>
     }
 </ul>

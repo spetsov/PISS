@@ -1,0 +1,19 @@
+﻿<h2>All Students:</h2>
+
+@(Html.Kendo().Grid<PISS.Models.Diploma>()
+  .Name("Grid").Columns(columns =>
+    {
+        columns.Bound(d => d.Student.Email).Title("Student Email");
+        columns.Bound(d => d.Approved).Title("Status");
+        columns.Template(@<text></text>).ClientTemplate("<a class='k-button k-button-icontext' href='" + Url.Action("Diploma", "Teacher") + "?studentId=#=StudentId#'>Details</a>");     
+    })
+    .Filterable()
+    .Sortable()
+    .Pageable()
+    .DataSource(dataSource => dataSource
+            .Ajax()
+            .PageSize(20)
+            .Model(model => model.Id(d => d.Id))
+            .Read(read => read.Action("GetAll", "Teacher")))
+)
+
