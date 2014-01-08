@@ -20,6 +20,7 @@ namespace PISS.Models
         public DbSet<DefenceCommision> DefenceCommisions { get; set; }
         public DbSet<StudentTeaher> StudentsTeahers { get; set; }
         public DbSet<StudentConsultant> StudentsConsultants { get; set; }
+        public DbSet<Doctorate> Doctorates { get; set; }
         public DbSet<File> Files { get; set; }
     }
 
@@ -32,6 +33,7 @@ namespace PISS.Models
         public string Email { get; set; }
     }
 
+    #region Student related
     [Table("Diploma")]
     public class Diploma
     {
@@ -98,7 +100,6 @@ namespace PISS.Models
         public File SourceCodeFile { get; set; }
     }
 
-
     [Table("DefenceCommision")]
     public class DefenceCommision
     {
@@ -140,6 +141,23 @@ namespace PISS.Models
         [ForeignKey("ConsultantId")]
         public UserProfile Consultant { get; set; }
     }
+    #endregion
+
+    #region Doctorant related
+    [Table("Doctorate")]
+    public class Doctorate
+    {
+        [Key]
+        [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
+        public int? GeneralWorkPlanFileId { get; set; }
+        [ForeignKey("GeneralWorkPlanFileId")]
+        public File GeneralWorkPlanFile { get; set; }
+        public int DoctorantId { get; set; }
+        [ForeignKey("DoctorantId")]
+        public UserProfile Doctorant { get; set; } 
+    }
+    #endregion
 
     [Table("Files")]
     public class File

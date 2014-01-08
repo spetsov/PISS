@@ -1,0 +1,19 @@
+﻿<h2>Here you can upload your General Work Plan</h2>
+
+<form method="post" action='@Url.Action("UploadFiles", this.Model)' style="width:45%">
+    <div>
+        @(Html.Kendo().Upload()
+            .Name("files").Multiple(false)
+        )
+        <p>
+            <input type="submit" value="Submit" class="k-button" />
+        </p>
+    </div>
+</form>
+
+@if (this.Model.GeneralWorkPlanFile != null)
+{
+    <h2>Your uploaded General Work Plan:</h2>
+    <a href='@Url.Action("Index", "Download", new { id = this.Model.GeneralWorkPlanFile.Id })' target = "_blank">@this.Model.GeneralWorkPlanFile.FileName</a>
+}
+

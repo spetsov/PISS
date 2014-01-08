@@ -188,6 +188,7 @@
     <Compile Include="Areas\Administration\Controllers\UsersController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Areas\Administration\Controllers\AdministrationController.cs" />
+    <Compile Include="Controllers\DoctorantController.cs" />
     <Compile Include="Controllers\DownloadController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="App_Start\SystemInitializer.cs" />
@@ -199,6 +200,7 @@
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\DbModels.cs" />
     <Compile Include="Models\DiplomaModels.cs" />
+    <Compile Include="Models\Repositories\DoctoratesRepository.cs" />
     <Compile Include="Models\Repositories\DiplomasRepository.cs" />
     <Compile Include="Models\Repositories\FilesRepository.cs" />
     <Compile Include="Models\Repositories\IRepository.cs" />
@@ -349,11 +351,12 @@
     <Content Include="Views\Shared\_MenuPartial.cshtml" />
     <Content Include="Scripts\prettify.min.js.map" />
     <Content Include="Views\Students\Index.cshtml" />
-    <Content Include="Views\Students\Result.cshtml" />
+    <Content Include="Views\Shared\Result.cshtml" />
     <Content Include="Views\Students\Thesis.cshtml" />
     <Content Include="Views\Teacher\Index.cshtml" />
     <Content Include="Views\Teacher\Diploma.cshtml" />
     <Content Include="Views\Account\RegistrationSuccessful.cshtml" />
+    <Content Include="Views\Doctorant\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
