@@ -34,6 +34,31 @@ namespace PISS.Models.Repositories
 
         }
 
+        public void AddDefenceMembers(string[] userIds, Diploma diploma)
+        {
+            if (diploma.DefenceCommisionMembers == null)
+            {
+                diploma.DefenceCommisionMembers = new List<DefenceCommisionMember>();
+            }
+            foreach (var userId in userIds)
+            {
+                int userIdParsed = int.Parse(userId);
+                var defenceCommisionMember = diploma.DefenceCommisionMembers.Where(c => c.MemberId == userIdParsed).FirstOrDefault();
+                if (defenceCommisionMember == null)
+                {
+                    var user = this.Context.UserProfiles.Where(u => u.UserId == userIdParsed).FirstOrDefault();
+                    defenceCommisionMember = new DefenceCommisionMember()
+                    {
+                         Member = user,
+                         MemberId = user.UserId
+                    };
+                    this.Context.DefenceCommisionsMembers.Add(defenceCommisionMember);
+                    diploma.DefenceCommisionMembers.Add(defenceCommisionMember);
+                }
+            }
+
+        }
+
         public void UploadFile(HttpPostedFileBase file, Diploma diploma, string propertyName)
         {
             if (propertyName != "AssignmentFile" && propertyName != "ReviewFile")

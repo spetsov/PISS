@@ -7,7 +7,8 @@ namespace PISS.Models
 {
     public class DiplomaViewModel
     {
-        public string[] SelectedUserIds { get; set; }
+        public string[] SelectedConsultantsUserIds { get; set; }
+        public string[] SelectedDefenceCommisionMembersUserIds { get; set; }
         public Diploma Diploma { get; set; }
     }
 }
