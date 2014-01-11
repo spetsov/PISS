@@ -155,15 +155,12 @@ namespace PISS.Models
         [Key]
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        
         public int? GeneralWorkPlanFileId { get; set; }
         [ForeignKey("GeneralWorkPlanFileId")]
         public File GeneralWorkPlanFile { get; set; }
-        
         public int? PersonalWorkPlanFileId { get; set; }
         [ForeignKey("PersonalWorkPlanFileId")]
         public File PersonalWorkPlanFile { get; set; }
-        
         public int DoctorantId { get; set; }
         [ForeignKey("DoctorantId")]
         public UserProfile Doctorant { get; set; } 
