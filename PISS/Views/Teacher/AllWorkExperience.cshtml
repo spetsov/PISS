@@ -1,0 +1,22 @@
+﻿<h2>All Students:</h2>
+
+@(Html.Kendo().Grid<PISS.Models.WorkExperience>()
+  .Name("Grid").Columns(columns =>
+    {
+        columns.Bound(d => d.Student.Email).Title("Student Email");
+        columns.Bound(d => d.SuggestionApproved).Title("Work experience suggestion approved");
+        columns.Bound(d => d.GradeApproved).Title("Grade approved");
+        columns.Template(@<text></text>).ClientTemplate("<a class='k-button k-button-icontext' href='" + Url.Action("WorkExperience", "Teacher") + "?studentId=#=StudentId#'>Details</a>");
+    })
+    .Filterable()
+    .Sortable()
+    .Pageable()
+    .DataSource(dataSource => dataSource
+            .Ajax()
+            .PageSize(20)
+            .Model(model =>
+            {
+                model.Id(d => d.Id);
+            })
+            .Read(read => read.Action("GetWorkExperienceCollection", "Teacher")))
+)

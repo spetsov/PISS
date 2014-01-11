@@ -4,8 +4,11 @@
   .Name("Grid").Columns(columns =>
     {
         columns.Bound(d => d.Student.Email).Title("Student Email");
-        columns.Bound(d => d.Approved).Title("Status");
-        columns.Template(@<text></text>).ClientTemplate("<a class='k-button k-button-icontext' href='" + Url.Action("Diploma", "Teacher") + "?studentId=#=StudentId#'>Details</a>");     
+        columns.Bound(d => d.Approved).Title("Assignment Status");
+        columns.Bound(d => d.Grade);
+        columns.Bound(d => d.GraduationDate);
+        columns.Bound(d => d.Reviewer).ClientTemplate("#=Reviewer == null ? '' : Reviewer.Email#");
+        columns.Template(@<text></text>).ClientTemplate("<a class='k-button k-button-icontext' href='" + Url.Action("Diploma", "Teacher") + "?studentId=#=StudentId#'>Details</a>");
     })
     .Filterable()
     .Sortable()
@@ -13,7 +16,10 @@
     .DataSource(dataSource => dataSource
             .Ajax()
             .PageSize(20)
-            .Model(model => model.Id(d => d.Id))
+            .Model(model =>
+            {
+                model.Id(d => d.Id);
+            })
             .Read(read => read.Action("GetAll", "Teacher")))
 )
 

@@ -1,0 +1,51 @@
+﻿@model PISS.Models.WorkExperience
+
+<div class="panel panel-success diploma-view">
+    <div class="panel-heading">
+        <h2>Work Experience of @Model.Student.Email</h2>
+    </div>
+    <div class="panel-body">
+
+        @if (this.Model.SuggestionFile != null)
+        {
+            <h3>Work Experience Suggestion:</h3>
+        
+            <a class="diploma-download" href='@Url.Action("Index", "Download", new { id = this.Model.SuggestionFile.Id })' target = "_blank">@this.Model.SuggestionFile.FileName</a>
+    
+            if (!this.Model.SuggestionApproved)
+            {
+                using (Html.BeginForm("ApproveWorkExperienceSuggestion", "Teacher", FormMethod.Post, this.Model))
+                {
+            <div>
+                @Html.HiddenFor(m => m.Id)
+
+                <input type="submit" value="Approve" class="btn btn-lg btn-success submit-review" />
+            </div>
+    
+                }
+            }
+        }
+
+        @if (this.Model.GradeFile != null)
+        {
+            <h3>Grade suggestion:</h3>
+        
+            <a class="diploma-download" href='@Url.Action("Index", "Download", new { id = this.Model.GradeFile.Id })' target = "_blank">@this.Model.GradeFile.FileName</a>
+    
+            if (!this.Model.GradeApproved)
+            {
+                using (Html.BeginForm("ApproveWorkExperienceGrade", "Teacher", FormMethod.Post, this.Model))
+                {
+            <div>
+                @Html.HiddenFor(m => m.Id)
+
+                <input type="submit" value="Approve" class="btn btn-lg btn-success submit-review" />
+            </div>
+    
+                }
+            }
+        }
+
+    </div>
+</div>
+

@@ -1,0 +1,66 @@
+﻿@model PISS.Models.WorkExperience
+
+<div class="panel panel-success doc-upload">
+    @if (this.Model != null && this.Model.SuggestionFile != null)
+    {
+        <div class="panel-body">
+            <h4>Your uploaded work experience suggestion:</h4>
+            <a href='@Url.Action("Index", "Download", new { id = this.Model.SuggestionFile.Id })' target = "_blank">@this.Model.SuggestionFile.FileName</a>
+
+            @if (!this.Model.SuggestionApproved)
+            {
+                <h3>Your work experience suggestion is waiting approval...</h3>
+            }
+            else
+            {
+                if (this.Model.GradeFile == null)
+                {
+                <h4>Upload your grade: (CAUTION - Once uploaded, you cannot change it!)</h4>
+                <form method="post" action='@Url.Action("UploadWorkExperienceSuggestion", new { modelId = this.Model.Id, filePropertyName = "GradeFile" })' style="width:45%">
+                    <div>
+                        @(Html.Kendo().Upload()
+                .Name("files").Multiple(false))
+                        <p>
+                            <input type="submit" value="Submit" class="k-button" />
+                        </p>
+                    </div>
+                </form>
+                }
+                else
+                {
+                <h4>Your uploaded grade:</h4>
+                <a href='@Url.Action("Index", "Download", new { id = this.Model.GradeFile.Id })' target = "_blank">@this.Model.GradeFile.FileName</a>
+                }
+
+                if (!this.Model.GradeApproved)
+                {
+                <h3>Your grade is waiting for approval...</h3>
+                }
+                else
+                {
+                <h3>Grade is approved!</h3>
+                }
+            }
+        </div>
+    }
+
+    else
+    {
+        <div class="panel-heading">
+            <h4>Upload your work experience suggestion: (CAUTION - Once uploaded, you cannot change it!)</h4>
+        </div>
+        <div class="panel-body">
+            <form method="post" action='@Url.Action("UploadWorkExperienceSuggestion", new { modelId = this.Model.Id, filePropertyName = "SuggestionFile" })' style="width:45%">
+                <div>
+                    @(Html.Kendo().Upload()
+            .Name("files").Multiple(false)
+        )
+                    <p>
+                        <input type="submit" value="Submit" class="k-button" />
+                    </p>
+                </div>
+            </form>
+        </div>
+    }
+</div>
+

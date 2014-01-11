@@ -133,6 +133,46 @@ namespace PISS.Controllers
             return View(model);
         }
 
+        public ActionResult WorkExperience()
+        {
+            var studentId = WebSecurity.GetUserId(User.Identity.Name);
+            WorkExperience model;
+            using (WorkExperienceRepository repo = new WorkExperienceRepository())
+            {
+                model = repo.Include("SuggestionFile").Include("GradeFile")
+                    .Where(w => w.StudentId == studentId).FirstOrDefault();
+
+            }
+
+            return View(model);
+        }
+
+        public ActionResult UploadWorkExperienceSuggestion(IEnumerable<HttpPostedFileBase> files, int modelId, string filePropertyName)
+        {
+            if (ModelState.IsValid)
+            {
+                var studentId = WebSecurity.GetUserId(User.Identity.Name);
+                if (files != null && files.Count() > 0)
+                {
+                    using (WorkExperienceRepository repo = new WorkExperienceRepository())
+                    {
+                        WorkExperience model = repo.GetSet().Find(modelId);
+                        if (modelId == 0)
+                        {
+                            model.Student = repo.Context.UserProfiles.Find(studentId);
+                            model.StudentId = studentId;
+                            repo.Add(model);
+                            repo.SaveChanges();
+                        }
+                        repo.UploadFile(files.First(), model, filePropertyName);
+                        repo.SaveChanges();
+                    }
+                }
+            }
+
+            return RedirectToAction("WorkExperience");
+        }
+
         private IEnumerable<string> GetFileInfo(IEnumerable<HttpPostedFileBase> files)
         {
             return

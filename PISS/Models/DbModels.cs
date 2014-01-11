@@ -22,6 +22,7 @@ namespace PISS.Models
         public DbSet<LeadTeacher> LeadTeachers { get; set; }
         public DbSet<Doctorate> Doctorates { get; set; }
         public DbSet<File> Files { get; set; }
+        public DbSet<WorkExperience> WorkExperience { get; set; }
         
     }
 
@@ -151,6 +152,35 @@ namespace PISS.Models
         [ForeignKey("TeacherId")]
         public UserProfile Teacher { get; set; }
     }
+    #endregion
+
+    #region Work Experience
+
+    [Table("WorkExperience")]
+    public class WorkExperience
+    {
+        [Key]
+        [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
+
+        public int StudentId { get; set; }
+        [ForeignKey("StudentId")]
+        public UserProfile Student { get; set; }
+
+        public int? SuggestionFileId { get; set; }
+        [ForeignKey("SuggestionFileId")]
+        public File SuggestionFile { get; set; }
+
+        public bool SuggestionApproved { get; set; }
+
+        public bool GradeApproved { get; set; }
+
+        public int? GradeFileId { get; set; }
+        [ForeignKey("GradeFileId")]
+        public File GradeFile { get; set; }
+
+    }
+
     #endregion
 
     #region Doctorant related

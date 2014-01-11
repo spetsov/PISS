@@ -19,6 +19,11 @@ namespace PISS.Controllers
             return View();
         }
 
+        public ActionResult AllWorkExperience()
+        {
+            return View();
+        }
+
         public ActionResult Diploma(int studentId)
         {
             DiplomaViewModel model = new DiplomaViewModel();
@@ -75,7 +80,7 @@ namespace PISS.Controllers
                 if (!string.IsNullOrEmpty(incomingDiploma.Diploma.ReviewNotes))
                 {
                     diploma.ReviewNotes = incomingDiploma.Diploma.ReviewNotes;
-                    diploma.Approved = ApprovedStatus.ConditionallyApproved;       
+                    diploma.Approved = ApprovedStatus.ConditionallyApproved;
                 }
                 else
                 {
@@ -88,14 +93,7 @@ namespace PISS.Controllers
 
                 return RedirectToAction("Diploma", new { studentId = diploma.StudentId });
                 // TODO: Send Email
-            }           
-            
-        }
-
-        public ActionResult GetAll([DataSourceRequest]DataSourceRequest request)
-        {
-            var diplomas = this.GetAllDiplomas(request.Page, request.PageSize);
-            return Json(diplomas.ToDataSourceResult(request));
+            }
         }
 
         public ActionResult UpdateDiploma(IEnumerable<HttpPostedFileBase> files, DiplomaViewModel incomingDiploma)
@@ -123,7 +121,7 @@ namespace PISS.Controllers
                     diploma.Reviewer = repo.Context.UserProfiles.Find(currentUserId);
                 }
 
-                if (incomingDiploma.SelectedConsultantsUserIds != null 
+                if (incomingDiploma.SelectedConsultantsUserIds != null
                     && incomingDiploma.SelectedConsultantsUserIds.Length > 0)
                 {
                     repo.AddConsultants(incomingDiploma.SelectedConsultantsUserIds, diploma);
@@ -144,14 +142,84 @@ namespace PISS.Controllers
                 repo.Update(diploma);
                 repo.SaveChanges();
                 return RedirectToAction("Diploma", new { studentId = diploma.StudentId });
-            }      
+            }
         }
+
+        public ActionResult WorkExperience(int studentId)
+        {
+            WorkExperience model;
+            using (WorkExperienceRepository repo = new WorkExperienceRepository())
+            {
+                model = repo.Include("Student").Include("SuggestionFile").Include("GradeFile")
+                    .Where(w => w.StudentId == studentId).FirstOrDefault();
+
+            }
+
+            return View(model);
+        }
+
+        public ActionResult ApproveWorkExperienceSuggestion(WorkExperience model)
+        {
+            var currentUserId = WebSecurity.GetUserId(User.Identity.Name);
+            using (WorkExperienceRepository repo = new WorkExperienceRepository())
+            {
+                var workExperience = repo.GetSet().Find(model.Id);
+                    workExperience.SuggestionApproved = true;
+
+                repo.Update(workExperience);
+                repo.SaveChanges();
+
+                // TODO: Send Email
+                return RedirectToAction("WorkExperience", new { studentId = workExperience.StudentId });
+
+            }
+
+        }
+
+        public ActionResult ApproveWorkExperienceGrade(WorkExperience model)
+        {
+            var currentUserId = WebSecurity.GetUserId(User.Identity.Name);
+            using (WorkExperienceRepository repo = new WorkExperienceRepository())
+            {
+                var workExperience = repo.GetSet().Find(model.Id);
+                workExperience.GradeApproved = true;
+
+                repo.Update(workExperience);
+                repo.SaveChanges();
+
+                // TODO: Send Email
+                return RedirectToAction("WorkExperience", new { studentId = workExperience.StudentId });
+
+            }
+
+        }
+
+        public ActionResult GetAll([DataSourceRequest]DataSourceRequest request)
+        {
+            var diplomas = this.GetAllDiplomas(request.Page, request.PageSize);
+            return Json(diplomas.ToDataSourceResult(request));
+        }
+
+        public ActionResult GetWorkExperienceCollection([DataSourceRequest]DataSourceRequest request)
+        {
+            var workExperience = this.GetAllWorkExperience(request.Page, request.PageSize);
+            return Json(workExperience.ToDataSourceResult(request));
+        }
+
 
         private IEnumerable<Diploma> GetAllDiplomas(int pageIndex, int pageSize)
         {
             using (DiplomasRepository repo = new DiplomasRepository())
             {
-                return repo.Include("Student").OrderByDescending(d => d.Id).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
+                return repo.Include("Student").Include("Reviewer").OrderByDescending(d => d.Id).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
+            }
+        }
+
+        private IEnumerable<WorkExperience> GetAllWorkExperience(int pageIndex, int pageSize)
+        {
+            using (WorkExperienceRepository repo = new WorkExperienceRepository())
+            {
+                return repo.Include("Student").Include("SuggestionFile").Include("GradeFile").OrderByDescending(d => d.Id).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
             }
         }
 

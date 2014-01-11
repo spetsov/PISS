@@ -15,9 +15,10 @@
         }
         @if (Roles.IsUserInRole("Student"))
         {
-            <li>@Html.ActionLink("MyAssignment", "Index", "Students")</li>
-            <li>@Html.ActionLink("MyThesis", "Thesis", "Students")</li>
-            <li>@Html.ActionLink("MyStatus", "DiplomaStatus", "Students")</li>
+            <li>@Html.ActionLink("My Assignment", "Index", "Students")</li>
+            <li>@Html.ActionLink("My Thesis", "Thesis", "Students")</li>
+            <li>@Html.ActionLink("My Status", "DiplomaStatus", "Students")</li>
+            <li>@Html.ActionLink("Work Experience", "WorkExperience", "Students")</li>
         }
         @if (Roles.IsUserInRole("Doctorant"))
         {
@@ -27,6 +28,7 @@
         @if (Roles.IsUserInRole("Teacher"))
         {
             <li>@Html.ActionLink("AllStudents", "Index", "Teacher")</li>
+            <li>@Html.ActionLink("Work Experience Requests", "AllWorkExperience", "Teacher")</li>
         }
     </ul>
      <div class="login-partial">
