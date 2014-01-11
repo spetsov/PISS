@@ -1,9 +1,22 @@
 ﻿<h2>Here you can upload your General Work Plan</h2>
 
-<form method="post" action='@Url.Action("UploadFiles", this.Model)' style="width:45%">
+<form method="post" action='@Url.Action("UploadGeneralPlan", this.Model)' style="width:45%">
     <div>
         @(Html.Kendo().Upload()
-            .Name("files").Multiple(false)
+            .Name("generalPlanFiles").Multiple(false)
+        )
+        <p>
+            <input type="submit" value="Submit" class="k-button" />
+        </p>
+    </div>
+</form>
+
+<h2>Here you can upload your Personal Work Plan</h2>
+
+<form method="post" action='@Url.Action("UploadPersonalPlan", this.Model)' style="width:45%">
+    <div>
+        @(Html.Kendo().Upload()
+            .Name("personalPlanFiles").Multiple(false)
         )
         <p>
             <input type="submit" value="Submit" class="k-button" />
@@ -15,5 +28,12 @@
 {
     <h2>Your uploaded General Work Plan:</h2>
     <a href='@Url.Action("Index", "Download", new { id = this.Model.GeneralWorkPlanFile.Id })' target = "_blank">@this.Model.GeneralWorkPlanFile.FileName</a>
+}
+
+
+@if (this.Model.PersonalWorkPlanFile != null)
+{
+    <h2>Your uploaded Personal Work Plan:</h2>
+    <a href='@Url.Action("Index", "Download", new { id = this.Model.PersonalWorkPlanFile.Id })' target = "_blank">@this.Model.PersonalWorkPlanFile.FileName</a>
 }
 
