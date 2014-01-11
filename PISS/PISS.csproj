@@ -373,6 +373,10 @@
     <Content Include="Views\Teacher\Diploma.cshtml" />
     <Content Include="Views\Account\RegistrationSuccessful.cshtml" />
     <Content Include="Views\Doctorant\Index.cshtml" />
+    <Content Include="Views\Doctorant\Leader.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Shared\LeaderResult.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

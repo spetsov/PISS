@@ -1,0 +1,25 @@
+﻿@model PISS.Models.Doctorate
+
+@if (this.Model.LeadTeacher != null)
+{
+    <h2>Your currently selected lead teacher: @this.Model.LeadTeacher.Email </h2>
+}
+
+    <h2>Update your science leader</h2>
+
+    <form method="post" action='@Url.Action("UpdateLeader", this.Model)' style="width:45%">
+        <div>
+            @(Html.Kendo().ComboBox()
+                .Name("selectedLeaders")
+                .DataValueField("UserId")
+                .DataTextField("Email")
+                .Filter("contains")
+                .HtmlAttributes(new { style = "width:250px" })
+                .BindTo((List<PISS.Models.UserViewModel>)ViewBag.Teachers)
+            )
+        
+            <p>
+                <input type="submit" value="Update" class="k-button" />
+            </p>
+        </div>
+    </form>
