@@ -55,55 +55,55 @@
             <h3>Source code:</h3>
             <a href='@Url.Action("Index", "Download", new { id = this.Model.Diploma.Thesis.SourceCodeFile.Id })' target = "_blank">@this.Model.Diploma.Thesis.SourceCodeFile.FileName</a>
 
-            using (Html.BeginForm("UpdateDiploma", "Teacher"))
+            @using (Html.BeginForm("UpdateDiploma", "Teacher"))
             {
         
-            <fieldset>
-                @Html.HiddenFor(m => m.Diploma.Id)
+                <fieldset>
+                    @Html.HiddenFor(m => m.Diploma.Id)
 
-                <legend>Upload your thesis</legend>
-                <ol>
-                    <li>
-                        @Html.LabelFor(m => m.Diploma.DefenceDate)
-                        @Html.Kendo().DateTimePickerFor(m => m.Diploma.DefenceDate)
-                    </li>
-                    <li>
-                        @Html.LabelFor(m => m.Diploma.Consultants)
-                        @(Html.Kendo().MultiSelectFor(m => m.SelectedConsultantsUserIds).BindTo((List<PISS.Models.UserViewModel>)ViewBag.Users)
+                    <legend>Upload your thesis</legend>
+                    <ol>
+                        <li>
+                            @Html.LabelFor(m => m.Diploma.DefenceDate)
+                            @Html.Kendo().DateTimePickerFor(m => m.Diploma.DefenceDate)
+                        </li>
+                        <li>
+                            @Html.LabelFor(m => m.Diploma.Consultants)
+                            @(Html.Kendo().MultiSelectFor(m => m.SelectedConsultantsUserIds).BindTo((List<PISS.Models.UserViewModel>)ViewBag.Users)
                 .DataValueField("UserId").DataTextField("Email"))
-                    </li>
-                    <li>
-                        @Html.LabelFor(m => m.Diploma.DefenceCommisionMembers)
-                        @(Html.Kendo().MultiSelectFor(m => m.SelectedDefenceCommisionMembersUserIds).BindTo((List<PISS.Models.UserViewModel>)ViewBag.Users)
+                        </li>
+                        <li>
+                            @Html.LabelFor(m => m.Diploma.DefenceCommisionMembers)
+                            @(Html.Kendo().MultiSelectFor(m => m.SelectedDefenceCommisionMembersUserIds).BindTo((List<PISS.Models.UserViewModel>)ViewBag.Users)
                 .DataValueField("UserId").DataTextField("Email"))
-                    </li>
-                    <li>
-                @Html.LabelFor(m => m.Diploma.LeadTeachers)
-                @(Html.Kendo().MultiSelectFor(m => m.SelectedLeadTeachersUserIds).BindTo((List<PISS.Models.UserViewModel>)ViewBag.Users)
+                        </li>
+                        <li>
+                            @Html.LabelFor(m => m.Diploma.LeadTeachers)
+                            @(Html.Kendo().MultiSelectFor(m => m.SelectedLeadTeachersUserIds).BindTo((List<PISS.Models.UserViewModel>)ViewBag.Users)
                 .DataValueField("UserId").DataTextField("Email"))
-                    </li>
-                    <li>
-                        @Html.LabelFor(m => m.Diploma.Grade)
-                @(Html.Kendo().DropDownListFor(m => m.Diploma.Grade).BindTo((List<PISS.Models.Grade>)ViewBag.Grades)
+                        </li>
+                        <li>
+                            @Html.LabelFor(m => m.Diploma.Grade)
+                            @(Html.Kendo().DropDownListFor(m => m.Diploma.Grade).BindTo((List<PISS.Models.Grade>)ViewBag.Grades)
                 .DataValueField("Value").DataTextField("Display"))
-                    </li>
-                    <li>
-                        <h3>Upload your review file:</h3>
-                        @(Html.Kendo().Upload()
+                        </li>
+                        <li>
+                            <h3>Upload your review file:</h3>
+                            @(Html.Kendo().Upload()
             .Name("files").Multiple(false))
-                    </li>
-                </ol>
-                <input type="submit" value="Submit" class="k-button" />
-            </fieldset>
+                        </li>
+                    </ol>
+                    <input type="submit" value="Submit" class="k-button" />
+                </fieldset>
             }
 
-            if (this.Model.Diploma.ReviewFile != null)
+            @if (this.Model.Diploma.ReviewFile != null)
             {
-            <h3>Review:</h3>
-            <a href='@Url.Action("Index", "Download", new { id = this.Model.Diploma.ReviewFile.Id })' target = "_blank">@this.Model.Diploma.ReviewFile.FileName</a>
+                <h3>Review:</h3>
+                <a href='@Url.Action("Index", "Download", new { id = this.Model.Diploma.ReviewFile.Id })' target = "_blank">@this.Model.Diploma.ReviewFile.FileName</a>
             }
 
-        
+
         </div>
     </div>
 }
