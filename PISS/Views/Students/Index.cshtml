@@ -1,25 +1,23 @@
 ﻿<div class="panel panel-success doc-upload">
     @if (this.Model.АssignmentFile != null)
     {
-        <div class="panel-body">
-        <h4>Your uploaded assignments:</h4>
-        <a href='@Url.Action("Index", "Download", new { id = this.Model.АssignmentFile.Id })' target = "_blank">@this.Model.АssignmentFile.FileName</a>
-            </div>
+        <div class="panel-heading">
+            <h4>Your uploaded assignments:</h4>
+            <a href='@Url.Action("Index", "Download", new { id = this.Model.АssignmentFile.Id })' target = "_blank">@this.Model.АssignmentFile.FileName</a>
+        </div>
     }
     else
     {
-        <div class="panel-heading">
-            <h4>Upload your assignment: (CAUTION - Once uploaded, you cannot change it!)</h4>
-        </div>
-        <div class="panel-body">
-            <form method="post" action='@Url.Action("UploadFiles", this.Model)' style="width:45%">
+          <div class="panel-heading">
+            <h4 class="alert alert-warning">Upload your assignment: (CAUTION - Once uploaded, you cannot change it!)</h4>
+     
+     
+            <form method="post" action='@Url.Action("UploadFiles", this.Model)'>
                 <div>
                     @(Html.Kendo().Upload()
             .Name("files").Multiple(false)
         )
-                    <p>
-                        <input type="submit" value="Submit" class="k-button" />
-                    </p>
+                        <input type="submit" value="Submit" class="k-button doc-submit" />
                 </div>
             </form>
         </div>

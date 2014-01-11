@@ -1,12 +1,14 @@
 ﻿@model PISS.Models.Diploma
 
+<div class="panel panel-success diploma-status">
+            <div class="panel-heading">
 @if (this.Model == null)
 {
-    <h2>Your assignment is not approved. Please wait for its approval or upload an assignment if you haven't already.</h2>
+    <h4>Your assignment is not approved. Please wait for its approval or upload an assignment if you haven't already.</h4>
 }
 else
 {
-    <h2>Your diploma status:</h2>
+    <h3>Your diploma status:</h3>
     
     <fieldset>
         <ul>
@@ -14,8 +16,8 @@ else
             {
                 <li>
                     <h3>Assignment status:</h3>
-                    <p>@Model.Approved</p>
-                    <p>Notes: @Html.Encode(Model.ReviewNotes)</p>
+                    <h4 class="status">@Model.Approved</h4>
+                    <p class="teacher-notes"> Notes: <span> @Html.Encode(Model.ReviewNotes)</span></p>
                     <p>by @this.Model.Approver.Email</p>
                 </li>
             }
@@ -76,5 +78,6 @@ else
     </fieldset>
 }
 
-
+  </div>
+          </div>
 

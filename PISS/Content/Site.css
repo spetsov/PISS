@@ -240,3 +240,82 @@ form input[type="password"]
     padding:10px 15px;
 }
 
+.thesis-view .source-code-lbl
+{
+    margin:0 15px;
+}
+
+.thesis-view .thesis-download 
+{
+    margin:15px;
+    display:block;
+}
+
+/*Diploma status*/
+ .teacher-notes span
+{
+  color: #000;
+  display:block;
+  margin-top:5px;
+  font-weight:normal;
+}
+
+.diploma-status h3,
+.diploma-status .status
+{
+    text-align:center;
+}
+
+.diploma-status p 
+{
+      font-weight:bold;
+}
+
+.diploma-status .status 
+{
+    color:#000;
+}
+
+.diploma-status ul
+{
+    padding-left:0;
+}
+
+.diploma-status li 
+{
+    list-style:none;
+}
+
+/*Work plans*/
+
+.panel-success.right 
+{
+    float:right;
+    width:47%;
+    height:250px;
+}
+.panel-success.left 
+{
+    float:left;
+    width:47%;
+    height:250px;
+}
+
+.panel-success.short
+{
+    height:auto;
+}
+
+/*Selected leader view*/
+
+.selected-leader .btn-success
+{
+    display:block;
+    width:80px;
+    margin-top:15px;
+}
+
+.selected-leader span 
+{
+    font-weight:bold;
+}
