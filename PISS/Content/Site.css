@@ -1,7 +1,7 @@
-﻿html, body 
+﻿/*html, body 
 {
     height:100%;
-}
+}*/
 
 .panel-success
 {
@@ -171,12 +171,47 @@ form input[type="password"]
     font-weight:bold;
 }
 
-.diploma-view p
+.diploma-view h4 
 {
-    display:inline-block;
     font-weight:bold;
 }
 
+.diploma-view p
+{
+    display:inline-block;
+
+}
+
+.diploma-view .k-multiselect 
+{
+    width:54%;
+    margin:10px 0;
+}
+
+.diploma-view .k-dropdown 
+{
+    width:46%;
+    margin:10px 0;
+}
+
+.diploma-view .k-picker-wrap 
+{
+    margin:10px 0;
+}
+
+.diploma-view legend 
+{
+    text-align:center;
+    font-weight:bold;
+}
+.diploma-view li 
+{
+    list-style:none;
+}
+.diploma-view ul 
+{
+   padding-left:0;
+}
 .diploma-view .diploma-download 
 {
     margin-left:10px;
@@ -240,3 +275,88 @@ form input[type="password"]
     padding:10px 15px;
 }
 
+.thesis-view .source-code-lbl
+{
+    margin:0 15px;
+}
+
+.thesis-view .thesis-download 
+{
+    margin:15px;
+    display:block;
+}
+
+/*Diploma status*/
+ .teacher-notes span
+{
+  color: #000;
+  display:block;
+  margin-top:5px;
+  font-weight:normal;
+}
+
+.diploma-status h3,
+.diploma-status .status
+{
+    text-align:center;
+}
+
+.diploma-status p 
+{
+      font-weight:bold;
+}
+
+.diploma-status .status 
+{
+    color:#000;
+}
+
+.diploma-status ul
+{
+    padding-left:0;
+}
+
+.diploma-status li 
+{
+    list-style:none;
+}
+
+/*Work plans*/
+
+.panel-success.right 
+{
+    float:right;
+    width:47%;
+    height:250px;
+}
+.panel-success.left 
+{
+    float:left;
+    width:47%;
+    height:250px;
+}
+
+.panel-success.short
+{
+    height:auto;
+}
+
+/*Selected leader view*/
+
+.selected-leader .btn-success
+{
+    display:block;
+    width:80px;
+    margin-top:15px;
+}
+
+.selected-leader span 
+{
+
+    font-weight:bold;
+}
+
+.panel-success 
+{
+    margin-bottom:20px;
+}

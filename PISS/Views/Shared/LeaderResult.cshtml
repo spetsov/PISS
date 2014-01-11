@@ -1,7 +1,8 @@
 ﻿@model PISS.Models.Doctorate
+<div class="panel panel-success selected-leader">
+    <div class="panel-heading">
+       <p> Selected leader: <span>@Model.LeadTeacher.Email</span></p>
 
-<p>
-    Selected leader: @Model.LeadTeacher.Email
-</p>
-
-<p><a href='@Url.Action("Leader")' class="t-button">Go back</a></p>
+        <a href='@Url.Action("Leader")' class="btn btn-sm btn-success">Go back</a>
+    </div>
+</div>

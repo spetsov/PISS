@@ -3,7 +3,7 @@
     @if (this.Model == null)
     {
         <div class="panel-heading">
-            <h2>Your assignment is not approved. Please wait for its approval or upload an assignment if you haven't already.</h2>
+            <h4>Your assignment is not approved. Please wait for its approval or upload an assignment if you haven't already.</h4>
         </div>
     }
     else if (this.Model.Id == 0)
@@ -12,31 +12,31 @@
             <h2>Upload your thesis:</h2>
         </div>
         <form method="post" action='@Url.Action("UploadThesis", this.Model)' style="width:45%">
-        
-                <fieldset>
-                    <legend class="alert alert-warning">Upload your thesis (CAUTION - Once uploaded, you cannot change it!)</legend>
-                    <ul>
-                        <li>
-                            @Html.LabelFor(m => m.Text)
-                            @Html.TextAreaFor(m => m.Text)
-                            @Html.ValidationMessageFor(m => m.Text)
-                        </li>
-                        <li>
-                            @Html.LabelFor(m => m.Summary_EN)
-                            @Html.TextAreaFor(m => m.Summary_EN)
-                        </li>
-                        <li>
-                            @Html.LabelFor(m => m.Summary_BG)
-                            @Html.TextAreaFor(m => m.Summary_BG)
-                        </li>
-                        <li>
-                            <h4>Upload your source code:</h4>
-                            @(Html.Kendo().Upload()
+
+            <fieldset>
+                <legend class="alert alert-warning">Upload your thesis (CAUTION - Once uploaded, you cannot change it!)</legend>
+                <ul>
+                    <li>
+                        @Html.LabelFor(m => m.Text)
+                        @Html.TextAreaFor(m => m.Text)
+                        @Html.ValidationMessageFor(m => m.Text)
+                    </li>
+                    <li>
+                        @Html.LabelFor(m => m.Summary_EN)
+                        @Html.TextAreaFor(m => m.Summary_EN)
+                    </li>
+                    <li>
+                        @Html.LabelFor(m => m.Summary_BG)
+                        @Html.TextAreaFor(m => m.Summary_BG)
+                    </li>
+                    <li>
+                        <h4>Upload your source code:</h4>
+                        @(Html.Kendo().Upload()
             .Name("files").Multiple(false))
-                        </li>
-                    </ul>
-                    <input type="submit" value="Submit" class="k-button" />
-                </fieldset>
+                    </li>
+                </ul>
+                <input type="submit" value="Submit" class="k-button" />
+            </fieldset>
         </form>
     }
     else
@@ -44,21 +44,22 @@
         <div class="panel-heading">
             <h2>Thesis</h2>
         </div>
-    
-        <h2>Text:</h2> 
-        <p>@Html.Encode(this.Model.Text)</p>
-    
-        <h2>Summary in English:</h2>  
-        <p>@Html.Encode(this.Model.Summary_EN)</p>
-    
-        <h2>Summary in Bulgarian:</h2>
-        <p>@Html.Encode(this.Model.Summary_BG)</p>
+        <div class="panel-body">
+            <h2>Text:</h2>
+            <p>@Html.Encode(this.Model.Text)</p>
+
+            <h2>Summary in English:</h2>
+            <p>@Html.Encode(this.Model.Summary_EN)</p>
+
+            <h2>Summary in Bulgarian:</h2>
+            <p>@Html.Encode(this.Model.Summary_BG)</p>
+    </div>
+            if (this.Model.SourceCodeFile != null)
+         {
+        <h4 class="source-code-lbl">Your uploaded source code:</h4>
+            <a class="thesis-download" href='@Url.Action("Index", "Download", new { id = this.Model.SourceCodeFile.Id })' target = "_blank">@this.Model.SourceCodeFile.FileName</a>
+         }
        
-        if (this.Model.SourceCodeFile != null)
-        {
-        <h4>Your uploaded source code:</h4>
-        <a href='@Url.Action("Index", "Download", new { id = this.Model.SourceCodeFile.Id })' target = "_blank">@this.Model.SourceCodeFile.FileName</a>
-        }
     }
 
 
