@@ -17,10 +17,12 @@
         {
             <li>@Html.ActionLink("MyAssignment", "Index", "Students")</li>
             <li>@Html.ActionLink("MyThesis", "Thesis", "Students")</li>
+            <li>@Html.ActionLink("MyStatus", "DiplomaStatus", "Students")</li>
         }
         @if (Roles.IsUserInRole("Doctorant"))
         {
             <li>@Html.ActionLink("Work Plan", "Index", "Doctorant")</li>
+            <li>@Html.ActionLink("Science Leader", "Leader", "Doctorant" )</li>
         }
         @if (Roles.IsUserInRole("Teacher"))
         {

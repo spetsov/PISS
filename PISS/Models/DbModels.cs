@@ -19,6 +19,7 @@ namespace PISS.Models
         public DbSet<Diploma> Diplomas { get; set; }
         public DbSet<DefenceCommisionMember> DefenceCommisionsMembers { get; set; }
         public DbSet<Consultant> Consultants { get; set; }
+        public DbSet<LeadTeacher> LeadTeachers { get; set; }
         public DbSet<Doctorate> Doctorates { get; set; }
         public DbSet<File> Files { get; set; }
         
@@ -45,16 +46,14 @@ namespace PISS.Models
 
         public DateTime? DefenceDate { get; set; }
 
+        public DateTime? GraduationDate { get; set; }
+
         [Display(Name = "Grade")]
         public int? Grade { get; set; }
 
         public int StudentId { get; set; }
         [ForeignKey("StudentId")]
         public UserProfile Student { get; set; }
-
-        public int? LeadTeacherId { get; set; }
-        [ForeignKey("LeadTeacherId")]
-        public UserProfile LeadTeacher { get; set; }
 
         public int? АssignmentFileId { get; set; }
         [ForeignKey("АssignmentFileId")]
@@ -82,7 +81,9 @@ namespace PISS.Models
 
         public ICollection<DefenceCommisionMember> DefenceCommisionMembers { get; set; }
 
-        public ICollection<Consultant> Consultants { get; set; } 
+        public ICollection<Consultant> Consultants { get; set; }
+
+        public ICollection<LeadTeacher> LeadTeachers { get; set; }
     }
 
     [Table("Thesis")]
@@ -138,6 +139,18 @@ namespace PISS.Models
         [ForeignKey("TeacherId")]
         public UserProfile Teacher { get; set; }
     }
+
+    [Table("LeadTeacher")]
+    public class LeadTeacher
+    {
+        [Key]
+        [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
+
+        public int? TeacherId { get; set; }
+        [ForeignKey("TeacherId")]
+        public UserProfile Teacher { get; set; }
+    }
     #endregion
 
     #region Doctorant related
@@ -147,15 +160,22 @@ namespace PISS.Models
         [Key]
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
+
         public int? GeneralWorkPlanFileId { get; set; }
         [ForeignKey("GeneralWorkPlanFileId")]
         public File GeneralWorkPlanFile { get; set; }
+
         public int? PersonalWorkPlanFileId { get; set; }
         [ForeignKey("PersonalWorkPlanFileId")]
         public File PersonalWorkPlanFile { get; set; }
+
         public int DoctorantId { get; set; }
         [ForeignKey("DoctorantId")]
         public UserProfile Doctorant { get; set; } 
+
+        public int? LeadTeacherId { get; set; }
+        [ForeignKey("LeadTeacherId")]
+        public UserProfile LeadTeacher { get; set; }
     }
     #endregion
 

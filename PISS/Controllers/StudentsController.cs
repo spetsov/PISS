@@ -62,8 +62,7 @@ namespace PISS.Controllers
             using (DiplomasRepository repo = new DiplomasRepository())
             {
                 Diploma diploma = repo.Include("ReviewFile").Include("Thesis")
-                    .Include("Thesis.SourceCodeFile").Include("DefenceCommisionMembers").Include("DefenceCommisionMembers.Member")
-                    .Include("Consultants").Include("Consultants.Teacher").Include("LeadTeacher").Include("Reviewer").Include("Approver")
+                    .Include("Thesis.SourceCodeFile")
                     .Where(d => d.StudentId == currentUserId).FirstOrDefault();
                 if (diploma == null)
                 {
@@ -115,6 +114,23 @@ namespace PISS.Controllers
             }
 
             return RedirectToAction("Thesis");
+        }
+
+        public ActionResult DiplomaStatus()
+        {
+            var studentId = WebSecurity.GetUserId(User.Identity.Name);
+            Diploma model;
+            using (DiplomasRepository repo = new DiplomasRepository())
+            {
+                model = repo.Include("Student").Include("АssignmentFile").Include("ReviewFile").Include("Thesis")
+                    .Include("Thesis.SourceCodeFile").Include("DefenceCommisionMembers").Include("DefenceCommisionMembers.Member")
+                    .Include("Consultants").Include("Consultants.Teacher").Include("LeadTeachers").Include("LeadTeachers.Teacher")
+                    .Include("Reviewer").Include("Approver")
+                    .Where(d => d.StudentId == studentId).FirstOrDefault();
+
+            }
+
+            return View(model);
         }
 
         private IEnumerable<string> GetFileInfo(IEnumerable<HttpPostedFileBase> files)

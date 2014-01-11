@@ -20,7 +20,7 @@ namespace PISS.Controllers
             var currentUserId = WebSecurity.GetUserId(User.Identity.Name);
             using (var repo = new DoctoratesRepository())
             {
-                model = repo.Include("GeneralWorkPlanFile", "PersonalWorkPlanFile").
+                model = repo.Include("GeneralWorkPlanFile").Include("PersonalWorkPlanFile").
                     Where(d => d.DoctorantId == currentUserId).FirstOrDefault();
                 if (model == null)
                 {
@@ -32,6 +32,7 @@ namespace PISS.Controllers
                     repo.SaveChanges();
                 }
             }
+
             return View(model);
         }
 
@@ -64,7 +65,54 @@ namespace PISS.Controllers
 
             return RedirectToAction("Result");
         }
-        
+
+        public ActionResult Leader()
+        {
+            Doctorate model;
+            var currentUserId = WebSecurity.GetUserId(User.Identity.Name);
+            using (var repo = new DoctoratesRepository())
+            {
+                model = repo.Include("LeadTeacher").
+                    Where(d => d.DoctorantId == currentUserId).FirstOrDefault();
+                if (model == null)
+                {
+                    model = new Doctorate()
+                    {
+                        DoctorantId = currentUserId
+                    };
+                    repo.Add(model);
+                    repo.SaveChanges();
+                }
+            }
+
+            using (var repo = new UserProfilesRepository())
+            {
+                var teachers = repo.GetAllMembershipUsersForRole("Teacher").ToList();
+                ViewBag.Teachers = teachers;
+            }
+            return View(model);
+        }
+
+        public ActionResult UpdateLeader(IEnumerable<string> selectedLeaders, Doctorate model)
+        {
+            using (var repo = new DoctoratesRepository())
+            {
+                int selectedLeaderId = int.Parse(selectedLeaders.First());
+                model.LeadTeacherId = selectedLeaderId;
+                model.LeadTeacher = repo.Context.UserProfiles.Single(x => x.UserId == selectedLeaderId);
+
+                repo.Update(model);
+                repo.SaveChanges();
+            }
+
+            return View("LeaderResult", model);
+        }
+
+        public ActionResult SelectScienceLeader()
+        {
+            return View();
+        }
+
         private IEnumerable<string> GetFileInfo(IEnumerable<HttpPostedFileBase> files)
         {
             return

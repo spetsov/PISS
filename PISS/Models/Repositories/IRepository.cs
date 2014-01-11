@@ -10,7 +10,7 @@ namespace PISS.Models.Repositories
     public interface IRepository<T> : IDisposable where T : class
     {
         IQueryable<T> GetQuery();
-        DbQuery<T> Include(params string[] includePaths);
+        DbQuery<T> Include(string includePath);
         T Get(T entry);
         T Add(T entry);
         T Update(T entry);

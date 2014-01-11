@@ -21,7 +21,12 @@ namespace PISS.Areas.Administration.Controllers
 
         public ActionResult GetAll([DataSourceRequest]DataSourceRequest request)
         {
-            return Json(this.GetMembershipUsers(request.Page, request.PageSize).ToDataSourceResult(request));
+            if (request.PageSize == 0)
+            {
+                request.PageSize = 10;
+            }
+            var result = Json(this.GetMembershipUsers(request.Page, request.PageSize).ToDataSourceResult(request));
+            return result;
         }
 
         public ActionResult ApproveUser(string email)

@@ -34,6 +34,31 @@ namespace PISS.Models.Repositories
 
         }
 
+        public void AddLeadTeachers(string[] userIds, Diploma diploma)
+        {
+            if (diploma.LeadTeachers == null)
+            {
+                diploma.LeadTeachers = new List<LeadTeacher>();
+            }
+            foreach (var userId in userIds)
+            {
+                int userIdParsed = int.Parse(userId);
+                var leadTeacher = diploma.LeadTeachers.Where(c => c.TeacherId == userIdParsed).FirstOrDefault();
+                if (leadTeacher == null)
+                {
+                    var user = this.Context.UserProfiles.Where(u => u.UserId == userIdParsed).FirstOrDefault();
+                    leadTeacher = new LeadTeacher()
+                    {
+                        Teacher = user,
+                        TeacherId = user.UserId
+                    };
+                    this.Context.LeadTeachers.Add(leadTeacher);
+                    diploma.LeadTeachers.Add(leadTeacher);
+                }
+            }
+
+        }
+
         public void AddDefenceMembers(string[] userIds, Diploma diploma)
         {
             if (diploma.DefenceCommisionMembers == null)
