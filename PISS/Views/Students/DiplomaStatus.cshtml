@@ -19,11 +19,16 @@ else
                     <p>by @this.Model.Approver.Email</p>
                 </li>
             }
-            @if (this.Model.LeadTeacher != null)
+            @if (this.Model.LeadTeachers != null && this.Model.LeadTeachers.Count > 0)
             {
                 <li>
-                    <h3>Lead teacher:</h3>
-                    <p>@this.Model.LeadTeacher.Email</p>
+                    <h3>Lead Teachers:</h3>
+                    <ul>
+                        @foreach (var leadTeacher in this.Model.LeadTeachers)
+                        {
+                            <li>@leadTeacher.Teacher.Email</li>
+                        }
+                    </ul>
                 </li>
             }
             @if (this.Model.Consultants != null && this.Model.Consultants.Count > 0)

@@ -26,7 +26,8 @@ namespace PISS.Controllers
             {
                 model.Diploma = repo.Include("Student").Include("АssignmentFile").Include("ReviewFile").Include("Thesis")
                     .Include("Thesis.SourceCodeFile").Include("DefenceCommisionMembers").Include("DefenceCommisionMembers.Member")
-                    .Include("Consultants").Include("Consultants.Teacher").Include("LeadTeacher").Include("Reviewer").Include("Approver")
+                    .Include("Consultants").Include("Consultants.Teacher").Include("LeadTeachers").Include("LeadTeachers.Teacher")
+                    .Include("Reviewer").Include("Approver")
                     .Where(d => d.StudentId == studentId).FirstOrDefault();
 
                 model.SelectedConsultantsUserIds = new string[model.Diploma.Consultants.Count];
@@ -42,6 +43,13 @@ namespace PISS.Controllers
                 {
                     model.SelectedDefenceCommisionMembersUserIds[i] = defenceCommisionMembersArray[i].MemberId.ToString();
                 }
+
+                model.SelectedLeadTeachersUserIds = new string[model.Diploma.LeadTeachers.Count];
+                var leadTeachersArray = model.Diploma.LeadTeachers.ToArray();
+                for (int i = 0; i < model.SelectedLeadTeachersUserIds.Length; i++)
+                {
+                    model.SelectedLeadTeachersUserIds[i] = leadTeachersArray[i].TeacherId.ToString();
+                }
             }
 
             using (UserProfilesRepository repo = new UserProfilesRepository())
@@ -50,6 +58,10 @@ namespace PISS.Controllers
                 var teachers = repo.GetAllMembershipUsersForRole("Teacher").ToList();
                 ViewBag.Users = teachers;
             }
+
+            List<Grade> gradesList = new List<Grade>() { new Grade(null, string.Empty), 
+            new Grade(2, "2"), new Grade(3, "3"), new Grade(4, "4"), new Grade(5, "5"), new Grade(6, "6")};
+            ViewBag.Grades = gradesList;
 
             return View(model);
         }
@@ -63,14 +75,14 @@ namespace PISS.Controllers
                 if (!string.IsNullOrEmpty(incomingDiploma.Diploma.ReviewNotes))
                 {
                     diploma.ReviewNotes = incomingDiploma.Diploma.ReviewNotes;
-                    diploma.Approved = ApprovedStatus.ConditionallyApproved;
-                    diploma.ApproverId = currentUserId;
-                    diploma.Approver = repo.Context.UserProfiles.Find(currentUserId);
+                    diploma.Approved = ApprovedStatus.ConditionallyApproved;       
                 }
                 else
                 {
                     diploma.Approved = ApprovedStatus.Approved;
                 }
+                diploma.ApproverId = currentUserId;
+                diploma.Approver = repo.Context.UserProfiles.Find(currentUserId);
                 repo.Update(diploma);
                 repo.SaveChanges();
 
@@ -91,10 +103,9 @@ namespace PISS.Controllers
             var currentUserId = WebSecurity.GetUserId(User.Identity.Name);
             using (DiplomasRepository repo = new DiplomasRepository())
             {
-                var diploma = repo.Include("Consultants").Include("DefenceCommisionMembers").FirstOrDefault(i => i.Id == incomingDiploma.Diploma.Id);
+                var diploma = repo.Include("Consultants").Include("DefenceCommisionMembers").Include("LeadTeachers")
+                    .FirstOrDefault(i => i.Id == incomingDiploma.Diploma.Id);
 
-                diploma.LeadTeacherId = incomingDiploma.Diploma.LeadTeacherId;
-                diploma.LeadTeacher = repo.Context.UserProfiles.Find(incomingDiploma.Diploma.LeadTeacherId);
                 diploma.DefenceDate = incomingDiploma.Diploma.DefenceDate;
                 diploma.Grade = incomingDiploma.Diploma.Grade;
                 if (files != null && files.Count() > 0)
@@ -114,6 +125,12 @@ namespace PISS.Controllers
                     && incomingDiploma.SelectedDefenceCommisionMembersUserIds.Length > 0)
                 {
                     repo.AddDefenceMembers(incomingDiploma.SelectedDefenceCommisionMembersUserIds, diploma);
+                }
+
+                if (incomingDiploma.SelectedLeadTeachersUserIds != null
+                    && incomingDiploma.SelectedLeadTeachersUserIds.Length > 0)
+                {
+                    repo.AddLeadTeachers(incomingDiploma.SelectedLeadTeachersUserIds, diploma);
                 }
 
                 repo.Update(diploma);

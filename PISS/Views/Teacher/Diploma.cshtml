@@ -66,13 +66,14 @@
                 .DataValueField("UserId").DataTextField("Email"))
             </li>
             <li>
-                @Html.LabelFor(m => m.Diploma.LeadTeacher)
-                @(Html.Kendo().DropDownListFor(m => m.Diploma.LeadTeacherId).BindTo((List<PISS.Models.UserViewModel>)ViewBag.Users)
+                @Html.LabelFor(m => m.Diploma.LeadTeachers)
+                @(Html.Kendo().MultiSelectFor(m => m.SelectedLeadTeachersUserIds).BindTo((List<PISS.Models.UserViewModel>)ViewBag.Users)
                 .DataValueField("UserId").DataTextField("Email"))
             </li>
             <li>
                 @Html.LabelFor(m => m.Diploma.Grade)
-                @Html.TextBoxFor(m => m.Diploma.Grade)
+                @(Html.Kendo().DropDownListFor(m => m.Diploma.Grade).BindTo((List<PISS.Models.Grade>)ViewBag.Grades)
+                .DataValueField("Value").DataTextField("Display"))
             </li>
             <li>
                 <h3>Upload your review file:</h3>
