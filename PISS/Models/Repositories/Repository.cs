@@ -36,14 +36,9 @@ namespace PISS.Models.Repositories
             return context.Set<T>();
         }
 
-        public virtual DbQuery<T> Include(params string[] includePaths)
+        public virtual DbQuery<T> Include(string includePath)
         {
-            DbQuery<T> result = context.Set<T>();
-            foreach (var includePath in includePaths)
-            {
-                result = result.Include(includePath);
-            }
-            return result;
+            return context.Set<T>().Include(includePath);;
         }
 
         public virtual T Get(T entry)
