@@ -4,13 +4,13 @@
 {
     <h2>Your assignment is not approved. Please wait for its approval or upload an assignment if you haven't already.</h2>
 }
-else
+else if (this.Model.Id == 0)
 {
     <h2>Upload your thesis:</h2>
     <form method="post" action='@Url.Action("UploadThesis", this.Model)' style="width:45%">
         <div>
             <fieldset>
-                <legend>Upload your thesis</legend>
+                <legend>Upload your thesis (CAUTION - Once uploaded, you cannot change it!)</legend>
                 <ol>
                     <li>
                         @Html.LabelFor(m => m.Text)
@@ -34,11 +34,24 @@ else
                 <input type="submit" value="Submit" class="k-button" />
             </fieldset>
     </form>
+}
+else
+{
+    <h2>Thesis</h2>
     
-    if(this.Model.SourceCodeFile != null)
+    <h2>Text:</h2> 
+    <p>@Html.Encode(this.Model.Text)</p>
+    
+    <h2>Summary in English:</h2>  
+    <p>@Html.Encode(this.Model.Summary_EN)</p>
+    
+    <h2>Summary in Bulgarian:</h2>
+    <p>@Html.Encode(this.Model.Summary_BG)</p>
+       
+    if (this.Model.SourceCodeFile != null)
     {
-        <h2>Your uploaded source code:</h2>
-        <a href='@Url.Action("Index", "Download", new { id = this.Model.SourceCodeFile.Id })' target = "_blank">@this.Model.SourceCodeFile.FileName</a>
+    <h2>Your uploaded source code:</h2>
+    <a href='@Url.Action("Index", "Download", new { id = this.Model.SourceCodeFile.Id })' target = "_blank">@this.Model.SourceCodeFile.FileName</a>
     }
 }
 

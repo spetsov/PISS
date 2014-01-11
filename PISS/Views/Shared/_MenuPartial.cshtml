@@ -25,7 +25,6 @@
         @if (Roles.IsUserInRole("Teacher"))
         {
             <li>@Html.ActionLink("AllStudents", "Index", "Teacher")</li>
-            <li>@Html.ActionLink("MyStudents", "MyStudents", "Teacher")</li>
         }
     </ul>
      <div class="login-partial">

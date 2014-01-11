@@ -61,7 +61,10 @@ namespace PISS.Controllers
             var currentUserId = WebSecurity.GetUserId(User.Identity.Name);
             using (DiplomasRepository repo = new DiplomasRepository())
             {
-                Diploma diploma = repo.Include("Thesis").Include("Thesis.SourceCodeFile").Where(d => d.StudentId == currentUserId).FirstOrDefault();
+                Diploma diploma = repo.Include("ReviewFile").Include("Thesis")
+                    .Include("Thesis.SourceCodeFile").Include("DefenceCommisionMembers").Include("DefenceCommisionMembers.Member")
+                    .Include("Consultants").Include("Consultants.Teacher").Include("LeadTeacher").Include("Reviewer").Include("Approver")
+                    .Where(d => d.StudentId == currentUserId).FirstOrDefault();
                 if (diploma == null)
                 {
                     return RedirectToAction("Index");

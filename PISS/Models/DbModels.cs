@@ -17,7 +17,6 @@ namespace PISS.Models
 
         public DbSet<UserProfile> UserProfiles { get; set; }
         public DbSet<Diploma> Diplomas { get; set; }
-        public DbSet<DefenceCommision> DefenceCommisions { get; set; }
         public DbSet<DefenceCommisionMember> DefenceCommisionsMembers { get; set; }
         public DbSet<Consultant> Consultants { get; set; }
         public DbSet<Doctorate> Doctorates { get; set; }
@@ -61,9 +60,17 @@ namespace PISS.Models
         [ForeignKey("АssignmentFileId")]
         public File АssignmentFile { get; set; }
 
+        public int? ApproverId { get; set; }
+        [ForeignKey("ApproverId")]
+        public UserProfile Approver { get; set; }
+
         public int? ReviewFileId { get; set; }
         [ForeignKey("ReviewFileId")]
         public File ReviewFile { get; set; }
+
+        public int? ReviewerId { get; set; }
+        [ForeignKey("ReviewerId")]
+        public UserProfile Reviewer { get; set; }        
 
         [Column(TypeName = "ntext")]
         [MaxLength]
@@ -73,9 +80,7 @@ namespace PISS.Models
         [ForeignKey("ThesisId")]
         public Thesis Thesis { get; set; }
 
-        public int? DefenceCommisionId { get; set; }
-        [ForeignKey("DefenceCommisionId")]
-        public DefenceCommision DefenceCommision { get; set; }
+        public ICollection<DefenceCommisionMember> DefenceCommisionMembers { get; set; }
 
         public ICollection<Consultant> Consultants { get; set; } 
     }
@@ -109,15 +114,6 @@ namespace PISS.Models
         public File SourceCodeFile { get; set; }
     }
 
-    [Table("DefenceCommision")]
-    public class DefenceCommision
-    {
-        [Key]
-        [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
-
-        public ICollection<DefenceCommisionMember> Members { get; set; }
-    }
 
     [Table("DefenceCommisionMember")]
     public class DefenceCommisionMember
@@ -125,10 +121,6 @@ namespace PISS.Models
         [Key]
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-
-        public int DefenceCommisionId { get; set; }
-        [ForeignKey("DefenceCommisionId")]
-        public DefenceCommision DefenceCommision { get; set; }
 
         public int? MemberId { get; set; }
         [ForeignKey("MemberId")]

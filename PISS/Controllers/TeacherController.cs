@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using WebMatrix.WebData;
 
 namespace PISS.Controllers
 {
@@ -24,15 +25,22 @@ namespace PISS.Controllers
             using (DiplomasRepository repo = new DiplomasRepository())
             {
                 model.Diploma = repo.Include("Student").Include("АssignmentFile").Include("ReviewFile").Include("Thesis")
-                    .Include("Thesis.SourceCodeFile").Include("DefenceCommision").Include("DefenceCommision.Members")
-                    .Include("DefenceCommision.Members.Member").Include("Consultants").Include("Consultants.Teacher")
-                    .Include("LeadTeacher")
+                    .Include("Thesis.SourceCodeFile").Include("DefenceCommisionMembers").Include("DefenceCommisionMembers.Member")
+                    .Include("Consultants").Include("Consultants.Teacher").Include("LeadTeacher").Include("Reviewer").Include("Approver")
                     .Where(d => d.StudentId == studentId).FirstOrDefault();
-                model.SelectedUserIds = new string[model.Diploma.Consultants.Count];
+
+                model.SelectedConsultantsUserIds = new string[model.Diploma.Consultants.Count];
                 var consultantsArray = model.Diploma.Consultants.ToArray();
-                for (int i = 0; i < model.SelectedUserIds.Length; i++)
+                for (int i = 0; i < model.SelectedConsultantsUserIds.Length; i++)
                 {
-                    model.SelectedUserIds[i] = consultantsArray[i].TeacherId.ToString();
+                    model.SelectedConsultantsUserIds[i] = consultantsArray[i].TeacherId.ToString();
+                }
+
+                model.SelectedDefenceCommisionMembersUserIds = new string[model.Diploma.DefenceCommisionMembers.Count];
+                var defenceCommisionMembersArray = model.Diploma.DefenceCommisionMembers.ToArray();
+                for (int i = 0; i < model.SelectedDefenceCommisionMembersUserIds.Length; i++)
+                {
+                    model.SelectedDefenceCommisionMembersUserIds[i] = defenceCommisionMembersArray[i].MemberId.ToString();
                 }
             }
 
@@ -48,12 +56,16 @@ namespace PISS.Controllers
 
         public ActionResult ApproveAssignment(DiplomaViewModel incomingDiploma)
         {
+            var currentUserId = WebSecurity.GetUserId(User.Identity.Name);
             using (DiplomasRepository repo = new DiplomasRepository())
             {
                 var diploma = repo.GetSet().Find(incomingDiploma.Diploma.Id);
                 if (!string.IsNullOrEmpty(incomingDiploma.Diploma.ReviewNotes))
                 {
+                    diploma.ReviewNotes = incomingDiploma.Diploma.ReviewNotes;
                     diploma.Approved = ApprovedStatus.ConditionallyApproved;
+                    diploma.ApproverId = currentUserId;
+                    diploma.Approver = repo.Context.UserProfiles.Find(currentUserId);
                 }
                 else
                 {
@@ -76,9 +88,10 @@ namespace PISS.Controllers
 
         public ActionResult UpdateDiploma(IEnumerable<HttpPostedFileBase> files, DiplomaViewModel incomingDiploma)
         {
+            var currentUserId = WebSecurity.GetUserId(User.Identity.Name);
             using (DiplomasRepository repo = new DiplomasRepository())
             {
-                var diploma = repo.Include("Consultants").FirstOrDefault(i => i.Id == incomingDiploma.Diploma.Id);
+                var diploma = repo.Include("Consultants").Include("DefenceCommisionMembers").FirstOrDefault(i => i.Id == incomingDiploma.Diploma.Id);
 
                 diploma.LeadTeacherId = incomingDiploma.Diploma.LeadTeacherId;
                 diploma.LeadTeacher = repo.Context.UserProfiles.Find(incomingDiploma.Diploma.LeadTeacherId);
@@ -87,11 +100,20 @@ namespace PISS.Controllers
                 if (files != null && files.Count() > 0)
                 {
                     repo.UploadFile(files.First(), diploma, "ReviewFile");
+                    diploma.ReviewerId = currentUserId;
+                    diploma.Reviewer = repo.Context.UserProfiles.Find(currentUserId);
                 }
 
-                if (incomingDiploma.SelectedUserIds != null && incomingDiploma.SelectedUserIds.Length > 0)
+                if (incomingDiploma.SelectedConsultantsUserIds != null 
+                    && incomingDiploma.SelectedConsultantsUserIds.Length > 0)
                 {
-                    repo.AddConsultants(incomingDiploma.SelectedUserIds, diploma);
+                    repo.AddConsultants(incomingDiploma.SelectedConsultantsUserIds, diploma);
+                }
+
+                if (incomingDiploma.SelectedDefenceCommisionMembersUserIds != null
+                    && incomingDiploma.SelectedDefenceCommisionMembersUserIds.Length > 0)
+                {
+                    repo.AddDefenceMembers(incomingDiploma.SelectedDefenceCommisionMembersUserIds, diploma);
                 }
 
                 repo.Update(diploma);

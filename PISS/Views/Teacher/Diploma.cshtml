@@ -16,7 +16,7 @@
     <div>
         @Html.HiddenFor(m => m.Diploma.Id)
 
-        @Html.LabelFor(m => m.Diploma.ReviewNotes)
+        @Html.LabelFor(m => m.Diploma.ReviewNotes, "Notes (If any)")
         @Html.TextAreaFor(m => m.Diploma.ReviewNotes)
         <p>
             <input type="submit" value="Approve" class="k-button" />
@@ -30,7 +30,16 @@
 @if (this.Model.Diploma.Thesis != null && this.Model.Diploma.Thesis.SourceCodeFile != null)
 {
     <h2>Thesis</h2>
-        
+    
+    <h3>Text:</h3> 
+    <p>@Html.Encode(this.Model.Diploma.Thesis.Text)</p>
+    
+    <h3>Summary in English:</h3>  
+    <p>@Html.Encode(this.Model.Diploma.Thesis.Summary_EN)</p>
+    
+    <h3>Summary in Bulgarian:</h3>
+    <p>@Html.Encode(this.Model.Diploma.Thesis.Summary_BG)</p>
+    
     <h3>Source code:</h3>
     <a href='@Url.Action("Index", "Download", new { id = this.Model.Diploma.Thesis.SourceCodeFile.Id })' target = "_blank">@this.Model.Diploma.Thesis.SourceCodeFile.FileName</a>
     
@@ -48,7 +57,12 @@
             </li>
             <li>
                 @Html.LabelFor(m => m.Diploma.Consultants)
-                @(Html.Kendo().MultiSelectFor(m => m.SelectedUserIds).BindTo((List<PISS.Models.UserViewModel>)ViewBag.Users)
+                @(Html.Kendo().MultiSelectFor(m => m.SelectedConsultantsUserIds).BindTo((List<PISS.Models.UserViewModel>)ViewBag.Users)
+                .DataValueField("UserId").DataTextField("Email"))
+            </li>
+            <li>
+                @Html.LabelFor(m => m.Diploma.DefenceCommisionMembers)
+                @(Html.Kendo().MultiSelectFor(m => m.SelectedDefenceCommisionMembersUserIds).BindTo((List<PISS.Models.UserViewModel>)ViewBag.Users)
                 .DataValueField("UserId").DataTextField("Email"))
             </li>
             <li>
