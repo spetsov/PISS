@@ -1,7 +1,7 @@
-﻿html, body 
+﻿/*html, body 
 {
     height:100%;
-}
+}*/
 
 .panel-success
 {
@@ -171,12 +171,47 @@ form input[type="password"]
     font-weight:bold;
 }
 
-.diploma-view p
+.diploma-view h4 
 {
-    display:inline-block;
     font-weight:bold;
 }
 
+.diploma-view p
+{
+    display:inline-block;
+
+}
+
+.diploma-view .k-multiselect 
+{
+    width:54%;
+    margin:10px 0;
+}
+
+.diploma-view .k-dropdown 
+{
+    width:46%;
+    margin:10px 0;
+}
+
+.diploma-view .k-picker-wrap 
+{
+    margin:10px 0;
+}
+
+.diploma-view legend 
+{
+    text-align:center;
+    font-weight:bold;
+}
+.diploma-view li 
+{
+    list-style:none;
+}
+.diploma-view ul 
+{
+   padding-left:0;
+}
 .diploma-view .diploma-download 
 {
     margin-left:10px;
@@ -319,4 +354,9 @@ form input[type="password"]
 {
 
     font-weight:bold;
+}
+
+.panel-success 
+{
+    margin-bottom:20px;
 }

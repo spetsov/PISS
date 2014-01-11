@@ -43,16 +43,16 @@
         </div>
         <div class="panel-body">
 
-            <h3>Text:</h3>
+            <h4>Text:</h4>
             <p>@Html.Encode(this.Model.Diploma.Thesis.Text)</p>
 
-            <h3>Summary in English:</h3>
+            <h4>Summary in English:</h4>
             <p>@Html.Encode(this.Model.Diploma.Thesis.Summary_EN)</p>
 
-            <h3>Summary in Bulgarian:</h3>
+            <h4>Summary in Bulgarian:</h4>
             <p>@Html.Encode(this.Model.Diploma.Thesis.Summary_BG)</p>
 
-            <h3>Source code:</h3>
+            <h4>Source code:</h4>
             <a href='@Url.Action("Index", "Download", new { id = this.Model.Diploma.Thesis.SourceCodeFile.Id })' target = "_blank">@this.Model.Diploma.Thesis.SourceCodeFile.FileName</a>
 
             @using (Html.BeginForm("UpdateDiploma", "Teacher"))
@@ -62,7 +62,7 @@
                     @Html.HiddenFor(m => m.Diploma.Id)
 
                     <legend>Upload your thesis</legend>
-                    <ol>
+                    <ul>
                         <li>
                             @Html.LabelFor(m => m.Diploma.DefenceDate)
                             @Html.Kendo().DateTimePickerFor(m => m.Diploma.DefenceDate)
@@ -92,7 +92,7 @@
                             @(Html.Kendo().Upload()
             .Name("files").Multiple(false))
                         </li>
-                    </ol>
+                    </ul>
                     <input type="submit" value="Submit" class="k-button" />
                 </fieldset>
             }
