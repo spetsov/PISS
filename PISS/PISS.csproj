@@ -373,6 +373,7 @@
     <Content Include="Views\Teacher\Diploma.cshtml" />
     <Content Include="Views\Account\RegistrationSuccessful.cshtml" />
     <Content Include="Views\Doctorant\Index.cshtml" />
+    <Content Include="Views\Students\DiplomaStatus.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

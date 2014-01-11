@@ -1,0 +1,68 @@
+﻿@model PISS.Models.Diploma
+
+@if (this.Model == null)
+{
+    <h2>Your assignment is not approved. Please wait for its approval or upload an assignment if you haven't already.</h2>
+}
+else
+{
+    <h2>Your diploma status:</h2>
+    
+    <fieldset>
+        <ul>
+            @if (this.Model.Approver != null)
+            {
+                <li>
+                    <h3>Assignment status:</h3>
+                    <p>@Model.Approved</p>
+                    <p>Notes: @Html.Encode(Model.ReviewNotes)</p>
+                    <p>by @this.Model.Approver.Email</p>
+                </li>
+            }
+            @if (this.Model.LeadTeacher != null)
+            {
+                <li>
+                    <h3>Lead teacher:</h3>
+                    <p>@this.Model.LeadTeacher.Email</p>
+                </li>
+            }
+            @if (this.Model.Consultants != null && this.Model.Consultants.Count > 0)
+            {
+                <li>
+                    <h3>Consultants:</h3>
+                    <ul>
+                        @foreach (var consultant in this.Model.Consultants)
+                        {
+                            <li>@consultant.Teacher.Email</li>
+                        }
+                    </ul>
+                </li>
+            }
+            @if (this.Model.DefenceDate != null)
+            {
+                <li>
+                    <h3>Defence Date:</h3>
+                    <p>@this.Model.DefenceDate</p>
+                </li>
+            }
+            @if (this.Model.Grade != null)
+            {
+                <li>
+                    <h3>Grade:</h3>
+                    <p>@this.Model.Grade</p>
+                </li>
+            }
+            @if (this.Model.ReviewFile != null)
+            {
+                <li>
+                    <h3>Review:</h3>
+                    <a href='@Url.Action("Index", "Download", new { id = this.Model.ReviewFile.Id })' target = "_blank">@this.Model.ReviewFile.FileName</a>
+                    <p>by @Model.Reviewer.Email</p>
+                </li>
+            }
+        </ul>
+    </fieldset>
+}
+
+
+
