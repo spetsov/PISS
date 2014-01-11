@@ -1,19 +1,21 @@
-﻿<h2>Upload your assignment:</h2>
-
-<form method="post" action='@Url.Action("UploadFiles", this.Model)' style="width:45%">
-    <div>
-        @(Html.Kendo().Upload()
-            .Name("files").Multiple(false)
-        )
-        <p>
-            <input type="submit" value="Submit" class="k-button" />
-        </p>
-    </div>
-</form>
-
-@if (this.Model.АssignmentFile != null)
+﻿@if (this.Model.АssignmentFile != null)
 {
     <h2>Your uploaded assignments:</h2>
     <a href='@Url.Action("Index", "Download", new { id = this.Model.АssignmentFile.Id })' target = "_blank">@this.Model.АssignmentFile.FileName</a>
+}
+else
+{
+    <h2>Upload your assignment: (CAUTION - Once uploaded, you cannot change it!)</h2>
+    
+    <form method="post" action='@Url.Action("UploadFiles", this.Model)' style="width:45%">
+        <div>
+            @(Html.Kendo().Upload()
+            .Name("files").Multiple(false)
+        )
+            <p>
+                <input type="submit" value="Submit" class="k-button" />
+            </p>
+        </div>
+    </form>
 }
 
