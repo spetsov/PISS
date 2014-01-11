@@ -23,7 +23,7 @@
             <li class="name">
                 @Html.LabelFor(m => m.UserName)
                 @Html.TextBoxFor(m => m.UserName)
-                @Html.ValidationMessageFor(m => m.UserName)
+                @Html.ValidationMessageFor(m => m.UserName,null, new { @class = "alert alert-danger" })
             </li>
         </ol>
         @Html.HiddenFor(m => m.ExternalLoginData)
