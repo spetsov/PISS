@@ -9,6 +9,31 @@ namespace PISS.Models.Repositories
 {
     public class DiplomasRepository : Repository<Diploma>
     {
+        public void AddConsultants(string[] userIds, Diploma diploma)
+        {
+                if (diploma.Consultants == null)
+                {
+                    diploma.Consultants = new List<Consultant>();
+                }
+                foreach (var userId in userIds)
+                {
+                    int userIdParsed = int.Parse(userId);
+                    var consultant = diploma.Consultants.Where(c => c.TeacherId == userIdParsed).FirstOrDefault();
+                    if (consultant == null)
+                    {
+                        var user = this.Context.UserProfiles.Where(u => u.UserId == userIdParsed).FirstOrDefault();
+                        consultant = new Consultant()
+                        {
+                            Teacher = user,
+                            TeacherId = user.UserId
+                        };
+                        this.Context.Consultants.Add(consultant);
+                        diploma.Consultants.Add(consultant);
+                    }
+                }
+
+        }
+
         public void UploadFile(HttpPostedFileBase file, Diploma diploma, string propertyName)
         {
             if (propertyName != "AssignmentFile" && propertyName != "ReviewFile")
@@ -46,8 +71,6 @@ namespace PISS.Models.Repositories
                     diploma.ReviewFile = newFile;
                     diploma.ReviewFileId = newFile.Id;
                 }
-
-                this.Update(diploma);
             }
 
         }

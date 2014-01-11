@@ -18,10 +18,11 @@ namespace PISS.Models
         public DbSet<UserProfile> UserProfiles { get; set; }
         public DbSet<Diploma> Diplomas { get; set; }
         public DbSet<DefenceCommision> DefenceCommisions { get; set; }
-        public DbSet<StudentTeaher> StudentsTeahers { get; set; }
-        public DbSet<StudentConsultant> StudentsConsultants { get; set; }
+        public DbSet<DefenceCommisionMember> DefenceCommisionsMembers { get; set; }
+        public DbSet<Consultant> Consultants { get; set; }
         public DbSet<Doctorate> Doctorates { get; set; }
         public DbSet<File> Files { get; set; }
+        
     }
 
     [Table("UserProfile")]
@@ -52,6 +53,10 @@ namespace PISS.Models
         [ForeignKey("StudentId")]
         public UserProfile Student { get; set; }
 
+        public int? LeadTeacherId { get; set; }
+        [ForeignKey("LeadTeacherId")]
+        public UserProfile LeadTeacher { get; set; }
+
         public int? АssignmentFileId { get; set; }
         [ForeignKey("АssignmentFileId")]
         public File АssignmentFile { get; set; }
@@ -68,7 +73,11 @@ namespace PISS.Models
         [ForeignKey("ThesisId")]
         public Thesis Thesis { get; set; }
 
-        public ICollection<DefenceCommision> DefenceCommisions { get; set; } 
+        public int? DefenceCommisionId { get; set; }
+        [ForeignKey("DefenceCommisionId")]
+        public DefenceCommision DefenceCommision { get; set; }
+
+        public ICollection<Consultant> Consultants { get; set; } 
     }
 
     [Table("Thesis")]
@@ -106,40 +115,36 @@ namespace PISS.Models
         [Key]
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
+
+        public ICollection<DefenceCommisionMember> Members { get; set; }
+    }
+
+    [Table("DefenceCommisionMember")]
+    public class DefenceCommisionMember
+    {
+        [Key]
+        [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
+
+        public int DefenceCommisionId { get; set; }
+        [ForeignKey("DefenceCommisionId")]
+        public DefenceCommision DefenceCommision { get; set; }
+
+        public int? MemberId { get; set; }
+        [ForeignKey("MemberId")]
+        public UserProfile Member { get; set; }
+    }
+
+    [Table("Consultants")]
+    public class Consultant
+    {
+        [Key]
+        [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
+
         public int TeacherId { get; set; }
         [ForeignKey("TeacherId")]
         public UserProfile Teacher { get; set; }
-        public int? DiplomaId { get; set; }
-        [ForeignKey("DiplomaId")]
-        public Diploma Diploma { get; set; }
-    }
-
-    [Table("StudentTeacher")]
-    public class StudentTeaher
-    {
-        [Key]
-        [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
-        public int StudentId { get; set; }
-        [ForeignKey("StudentId")]
-        public UserProfile Student { get; set; }
-        public int? LeadTeacherId { get; set; }
-        [ForeignKey("LeadTeacherId")]
-        public UserProfile LeadTeacher { get; set; }
-    }
-
-    [Table("StudentConsultant")]
-    public class StudentConsultant
-    {
-        [Key]
-        [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
-        public int StudentId { get; set; }
-        [ForeignKey("StudentId")]
-        public UserProfile Student { get; set; }
-        public int? ConsultantId { get; set; }
-        [ForeignKey("ConsultantId")]
-        public UserProfile Consultant { get; set; }
     }
     #endregion
 

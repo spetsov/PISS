@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Web;
@@ -30,6 +31,11 @@ namespace PISS.Models.Repositories
             return context.Set<T>();
         }
 
+        public virtual DbSet<T> GetSet()
+        {
+            return context.Set<T>();
+        }
+
         public virtual DbQuery<T> Include(string includePath)
         {
             return context.Set<T>().Include(includePath);
@@ -50,7 +56,9 @@ namespace PISS.Models.Repositories
         {
             DbEntityEntry<T> entity = context.Entry(entry);
             if (entity.State == EntityState.Detached)
+            {
                 this.context.Set<T>().Attach(entry);
+            }
             entity.State = EntityState.Modified;
             return entity.Entity;
         }

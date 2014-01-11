@@ -42,6 +42,7 @@ namespace PISS.Controllers
                 using (DiplomasRepository repo = new DiplomasRepository())
                 {
                     repo.UploadFile(files.First(), model, "AssignmentFile");
+                    repo.Update(model);
                     repo.SaveChanges();
                 }                
             }
@@ -73,15 +74,7 @@ namespace PISS.Controllers
                     }
                     else if (diploma.Approved != ApprovedStatus.Unapproved)
                     {
-                        using (ThesisRepository thesisRepo = new ThesisRepository())
-                        {
-                            model = thesisRepo.Add(new Thesis());
-                            thesisRepo.SaveChanges();
-                            diploma.Thesis = model;
-                            diploma.ThesisId = model.Id;
-                            repo.Update(diploma);
-                            repo.SaveChanges();
-                        }
+                        model = new Thesis();
                     }
                     else
                     {
@@ -94,12 +87,27 @@ namespace PISS.Controllers
 
         public ActionResult UploadThesis(IEnumerable<HttpPostedFileBase> files, Thesis model)
         {
-            if (files != null && files.Count() > 0)
+            if (ModelState.IsValid)
             {
-                using (ThesisRepository repo = new ThesisRepository())
+                if (files != null && files.Count() > 0)
                 {
-                    repo.UploadFile(files.First(), model);
-                    repo.SaveChanges();
+                    using (ThesisRepository repo = new ThesisRepository())
+                    {
+                        if (model.Id == 0)
+                        {
+                            var currentUserId = WebSecurity.GetUserId(User.Identity.Name);
+                            repo.Add(model);
+                            Diploma diploma = repo.Context.Diplomas.Where(d => d.StudentId == currentUserId).FirstOrDefault();
+                            if (diploma != null)
+                            {
+                                diploma.Thesis = model;
+                                diploma.ThesisId = model.Id;
+                            }
+                            repo.SaveChanges();
+                        }
+                        repo.UploadFile(files.First(), model);
+                        repo.SaveChanges();
+                    }
                 }
             }
 

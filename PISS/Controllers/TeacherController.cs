@@ -20,35 +20,52 @@ namespace PISS.Controllers
 
         public ActionResult Diploma(int studentId)
         {
-            Diploma model;
+            DiplomaViewModel model = new DiplomaViewModel();
             using (DiplomasRepository repo = new DiplomasRepository())
             {
-                model = repo.Include("Student").Include("АssignmentFile").Include("ReviewFile").Include("Thesis")
-                    .Include("Thesis.SourceCodeFile").Where(d => d.StudentId == studentId).FirstOrDefault();
+                model.Diploma = repo.Include("Student").Include("АssignmentFile").Include("ReviewFile").Include("Thesis")
+                    .Include("Thesis.SourceCodeFile").Include("DefenceCommision").Include("DefenceCommision.Members")
+                    .Include("DefenceCommision.Members.Member").Include("Consultants").Include("Consultants.Teacher")
+                    .Include("LeadTeacher")
+                    .Where(d => d.StudentId == studentId).FirstOrDefault();
+                model.SelectedUserIds = new string[model.Diploma.Consultants.Count];
+                var consultantsArray = model.Diploma.Consultants.ToArray();
+                for (int i = 0; i < model.SelectedUserIds.Length; i++)
+                {
+                    model.SelectedUserIds[i] = consultantsArray[i].TeacherId.ToString();
+                }
+            }
+
+            using (UserProfilesRepository repo = new UserProfilesRepository())
+            {
+
+                var teachers = repo.GetAllMembershipUsersForRole("Teacher").ToList();
+                ViewBag.Users = teachers;
             }
 
             return View(model);
         }
 
-        public ActionResult ApproveAssignment(Diploma incomingDiploma)
+        public ActionResult ApproveAssignment(DiplomaViewModel incomingDiploma)
         {
             using (DiplomasRepository repo = new DiplomasRepository())
             {
-                if (!string.IsNullOrEmpty(incomingDiploma.ReviewNotes))
+                var diploma = repo.GetSet().Find(incomingDiploma.Diploma.Id);
+                if (!string.IsNullOrEmpty(incomingDiploma.Diploma.ReviewNotes))
                 {
-                    incomingDiploma.Approved = ApprovedStatus.ConditionallyApproved;
+                    diploma.Approved = ApprovedStatus.ConditionallyApproved;
                 }
                 else
                 {
-                    incomingDiploma.Approved = ApprovedStatus.Approved;
+                    diploma.Approved = ApprovedStatus.Approved;
                 }
-                repo.Update(incomingDiploma);
+                repo.Update(diploma);
                 repo.SaveChanges();
-            }
 
-            // TODO: Send Email
-
-            return RedirectToAction("Diploma", new { studentId = incomingDiploma.StudentId });
+                return RedirectToAction("Diploma", new { studentId = diploma.StudentId });
+                // TODO: Send Email
+            }           
+            
         }
 
         public ActionResult GetAll([DataSourceRequest]DataSourceRequest request)
@@ -57,26 +74,30 @@ namespace PISS.Controllers
             return Json(diplomas.ToDataSourceResult(request));
         }
 
-        public ActionResult UpdateDiploma(IEnumerable<HttpPostedFileBase> files, Diploma incomingDiploma)
+        public ActionResult UpdateDiploma(IEnumerable<HttpPostedFileBase> files, DiplomaViewModel incomingDiploma)
         {
-            if (files != null && files.Count() > 0)
+            using (DiplomasRepository repo = new DiplomasRepository())
             {
-                using (DiplomasRepository repo = new DiplomasRepository())
-                {
-                    repo.UploadFile(files.First(), incomingDiploma, "ReviewFile");
-                    repo.SaveChanges();
-                }
-            }
-            else
-            {
-                using (DiplomasRepository repo = new DiplomasRepository())
-                {
-                    repo.Update(incomingDiploma);
-                    repo.SaveChanges();
-                }
-            }
+                var diploma = repo.Include("Consultants").FirstOrDefault(i => i.Id == incomingDiploma.Diploma.Id);
 
-            return RedirectToAction("Diploma", new { studentId = incomingDiploma.StudentId });
+                diploma.LeadTeacherId = incomingDiploma.Diploma.LeadTeacherId;
+                diploma.LeadTeacher = repo.Context.UserProfiles.Find(incomingDiploma.Diploma.LeadTeacherId);
+                diploma.DefenceDate = incomingDiploma.Diploma.DefenceDate;
+                diploma.Grade = incomingDiploma.Diploma.Grade;
+                if (files != null && files.Count() > 0)
+                {
+                    repo.UploadFile(files.First(), diploma, "ReviewFile");
+                }
+
+                if (incomingDiploma.SelectedUserIds != null && incomingDiploma.SelectedUserIds.Length > 0)
+                {
+                    repo.AddConsultants(incomingDiploma.SelectedUserIds, diploma);
+                }
+
+                repo.Update(diploma);
+                repo.SaveChanges();
+                return RedirectToAction("Diploma", new { studentId = diploma.StudentId });
+            }      
         }
 
         private IEnumerable<Diploma> GetAllDiplomas(int pageIndex, int pageSize)
