@@ -46,7 +46,7 @@ namespace PISS
             bundles.Add(new StyleBundle("~/Content/kendo").Include(
                 "~/Content/kendo/kendo.common.min.css",
                 "~/Content/kendo/kendo.rtl.min.css",
-                "~/Content/kendo/kendo.default.min.css"
+                "~/Content/kendo/kendo.metro.min.css"
                 ));
         }
     }

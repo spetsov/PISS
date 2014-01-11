@@ -12,12 +12,13 @@
 
     <link rel="stylesheet" href="@Url.Content("~/Content/kendo/kendo.common.min.css")">
     <link rel="stylesheet" href="@Url.Content("~/Content/kendo/kendo.rtl.min.css")">
-    <link rel="stylesheet" href="@Url.Content("~/Content/kendo/kendo.metro.min.css")">
+    <link rel="stylesheet" href="@Url.Content("~/Content/kendo/kendo.default.min.css")">
     <script src="@Url.Content("~/Scripts/kendo.web.min.js")"></script>
     <script src="@Url.Content("~/Scripts/kendo.aspnetmvc.min.js")"></script>
     <script src="@Url.Content("~/Scripts/kendo.timezones.min.js")"></script>
     <script src="@Url.Content("~/Scripts/console.min.js")"></script>
     <script src="@Url.Content("~/Scripts/prettify.min.js")"></script>
+<<<<<<< HEAD
 </head>
 <body>
     <div class="navbar navbar-inverse" role="navigation">
@@ -28,18 +29,45 @@
         </div>
     </div>
 
-    <div id="body" class="container">
+    <div class="container">
 
         <div class="starter-template">
 
+=======
+    </head>
+    <body>
+        <header>
+            <div class="content-wrapper">
+                <div class="float-right">
+                    <section id="login">
+                        @Html.Partial("_LoginPartial")
+                    </section>
+                    <nav>
+                        @Html.Partial("_MenuPartial")
+                    </nav>
+                </div>
+            </div>
+        </header>
+        <div id="body">
+>>>>>>> 3e358e14f816e8e38de51f9db5e52d5a531e5931
             @RenderSection("featured", required: false)
 
             <section class="content-wrapper main-content clear-fix">
                 @RenderBody()
             </section>
         </div>
+<<<<<<< HEAD
     </div>
     @RenderSection("scripts", required: false)
+=======
+        <footer>
+            <div class="content-wrapper">
+                <div class="float-left">
+                    <p>&copy; @DateTime.Now.Year - PISS</p>
+                </div>
+            </div>
+        </footer>
+>>>>>>> 3e358e14f816e8e38de51f9db5e52d5a531e5931
 
 </body>
 </html>

@@ -1,3 +1,17 @@
-﻿<ul id="menu">
-    <li>@Html.ActionLink("Users", "Index", "Users")</li>
-</ul>
+﻿<div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+    </button>
+</div>
+<div class="collapse navbar-collapse">
+    <ul class="nav navbar-nav">
+
+        <li>@Html.ActionLink("Users", "Index", "Users")</li>
+    </ul>
+    <div class="login-partial">
+        @Html.Partial("_LoginPartial")
+    </div>
+</div>

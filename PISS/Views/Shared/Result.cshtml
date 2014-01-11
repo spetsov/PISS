@@ -1,18 +1,27 @@
-﻿<p>
-    Uploaded files
-</p>
-
-@if (TempData.ContainsKey("UploadedFiles")) {
-    <div class="t-widget t-upload">
-        <ul class="t-upload-files t-reset">
-    @foreach (var attachment in (IEnumerable<string>)TempData["UploadedFiles"])
-       {
-            <li class="t-file"><span class="t-icon t-success"></span>@attachment</li>
-     }
-        </ul>
+﻿<div class="panel panel-success doc-uploaded">
+    <div class="panel-heading">
+        <h4>
+            Uploaded files
+        </h4>
     </div>
- } else {
-    <text>-- None --</text>
- }
+    <div class="panel-body">
+        @if (TempData.ContainsKey("UploadedFiles"))
+        {
+            <div class="t-widget t-upload">
+                <ul class="t-upload-files t-reset">
+                    @foreach (var attachment in (IEnumerable<string>)TempData["UploadedFiles"])
+                    {
+                        <li class="t-file"><span class="t-icon t-success"></span>@attachment</li>
+                    }
+                </ul>
+            </div>
+        }
+        else
+        {
+            <text>-- None --</text>
+        }
 
-<p><a href='@Url.Action("Index")' class="t-button">Go back</a></p>
+       <a href='@Url.Action("Index")' class="k-button doc-back">Go back</a>
+
+    </div>
+</div>

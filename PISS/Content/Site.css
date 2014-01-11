@@ -3,6 +3,18 @@
     height:100%;
 }
 
+.panel-success
+{
+    width:450px;
+    margin:0 auto;
+    margin-top:50px;
+}
+
+.panel-success form
+{
+    width:100% !important;
+}
+
 /*Nav*/
 
 .navbar-nav > li > a 
@@ -23,24 +35,21 @@
 
 /*Partial login panel*/
 
+.login-partial,
+.login-partial a 
+{
+
+    color:#fff;
+}
+
+
 .login-partial 
 {
     float:right;
 }
 
-.login-partial a 
-{
-    color:#fff;
-}
 
 /*Login form*/
-
-.panel-success.login-form 
-{
-    width:450px;
-    margin:0 auto;
-    margin-top:70px;
-}
 
 .login-text 
 {
@@ -93,9 +102,141 @@ form input[type="password"]
    color:#205C20;
 }
 
+/*Registration form*/
+
+.registration-form ol 
+{
+    padding-left:0;
+}
+
 /*Validation message*/
 
 .alert 
 {
     display:block;
 }
+
+.validation-summary-errors li 
+{
+    color:red;
+}
+
+/*Home index view*/
+
+.index-home h1,
+.index-administration h1
+{
+  text-align:center;
+}
+
+/*Document upload*/
+.doc-upload .doc-submit
+{
+    margin:20px 0;
+}
+
+.doc-upload h4
+{
+    margin-top:0;
+}
+
+.doc-uploaded .doc-back 
+{
+    display:block;
+    width:80px;
+    margin-top:10px;
+}
+
+.doc-uploaded .t-upload-files 
+{
+    padding-left:0;
+}
+
+.doc-uploaded .t-file 
+{
+    list-style:none;
+}
+
+/*Diploma*/
+
+.panel-success.diploma-view,
+.panel-success.thesis-view
+{
+    width:600px;
+}
+
+.diploma-view h3 
+{
+    text-align:center;
+    font-weight:bold;
+}
+
+.diploma-view p
+{
+    display:inline-block;
+    font-weight:bold;
+}
+
+.diploma-view .diploma-download 
+{
+    margin-left:10px;
+}
+
+.diploma-view .review-notes-lbl,
+.diploma-view .submit-review 
+{
+    display:block;
+}
+
+.diploma-view .submit-review 
+{
+    margin-top:20px;
+}
+
+.diploma-view textarea 
+{
+    width: 100%;
+    height: 150px;
+    margin-top: 10px;
+    border-color: #d6e9c6;
+}
+
+/*Thesis view*/
+.thesis-view form 
+{
+    padding:10px;
+}
+
+.thesis-view label 
+{
+    display:block;
+}
+
+.thesis-view ul 
+{
+    padding-left:0;
+}
+
+.thesis-view li 
+{
+    list-style:none;
+}
+
+.thesis-view textarea 
+{
+    height:100px;
+    width:100%;
+    border-color:#d6e9c6;
+}
+
+.thesis-view legend 
+{
+    border:0;
+    font-size:16px;
+}
+
+.thesis-view .k-button 
+{
+    padding:10px 15px;
+}
+

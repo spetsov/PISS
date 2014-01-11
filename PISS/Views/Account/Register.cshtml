@@ -3,42 +3,48 @@
     ViewBag.Title = "Register";
 }
 
-<hgroup class="title">
-    <h1>@ViewBag.Title.</h1>
-    <h2>Create a new account.</h2>
-</hgroup>
+<div class="panel panel-success registration-form" id="loginForm">
+    <div class="panel-heading clearfix">
+        <hgroup class="title">
+            <h1>@ViewBag.Title.</h1>
+            <h2>Create a new account.</h2>
+        </hgroup>
+    </div>
+    <div class="panel-body login-form">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary()
 
-@using (Html.BeginForm()) {
-    @Html.AntiForgeryToken()
-    @Html.ValidationSummary()
-
-    <fieldset>
-        <legend>Registration Form</legend>
-        <ol>
-            <li>
-                @Html.LabelFor(m => m.Email)
-                @Html.TextBoxFor(m => m.Email)
-            </li>
-            <li>
-                @Html.LabelFor(m => m.Password)
-                @Html.PasswordFor(m => m.Password)
-            </li>
-            <li>
-                @Html.LabelFor(m => m.ConfirmPassword)
-                @Html.PasswordFor(m => m.ConfirmPassword)
-            </li>
-            <li>
-                @Html.LabelFor(m => m.RoleName)
-                <ol>
-                    <li>@Html.RadioButtonFor(m => m.RoleName, "Student") Student</li>
-                    <li>@Html.RadioButtonFor(m => m.RoleName, "Teacher") Teacher</li>
-                    <li>@Html.RadioButtonFor(m => m.RoleName, "Doctorant") Doctorant</li>                                    
-                </ol>
-            </li>
-        </ol>
-        <input type="submit" value="Register" />
-    </fieldset>
-}
+            <fieldset>
+                <ul>
+                    <li>
+                        @Html.LabelFor(m => m.Email)
+                        @Html.TextBoxFor(m => m.Email)
+                    </li>
+                    <li>
+                        @Html.LabelFor(m => m.Password)
+                        @Html.PasswordFor(m => m.Password)
+                    </li>
+                    <li>
+                        @Html.LabelFor(m => m.ConfirmPassword)
+                        @Html.PasswordFor(m => m.ConfirmPassword)
+                    </li>
+                    <li>
+                        @Html.LabelFor(m => m.RoleName)
+                        <ol class="reg-user-type">
+                            <li>@Html.RadioButtonFor(m => m.RoleName, "Student") Student</li>
+                            <li>@Html.RadioButtonFor(m => m.RoleName, "Teacher") Teacher</li>
+                            <li>@Html.RadioButtonFor(m => m.RoleName, "Doctorant") Doctorant</li>
+                        </ol>
+                    </li>
+                </ul>
+                <input type="submit" value="Register"  class="btn btn-lg btn-success" />
+            </fieldset>
+   
+        }
+    </div>
+</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
