@@ -15,6 +15,7 @@ else
                     <li>
                         @Html.LabelFor(m => m.Text)
                         @Html.TextAreaFor(m => m.Text)
+                        @Html.ValidationMessageFor(m => m.Text)
                     </li>
                     <li>
                         @Html.LabelFor(m => m.Summary_EN)

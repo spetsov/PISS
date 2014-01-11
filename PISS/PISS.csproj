@@ -200,6 +200,7 @@
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\DbModels.cs" />
     <Compile Include="Models\DiplomaModels.cs" />
+    <Compile Include="Models\Repositories\ConsultantsRepository.cs" />
     <Compile Include="Models\Repositories\DoctoratesRepository.cs" />
     <Compile Include="Models\Repositories\DiplomasRepository.cs" />
     <Compile Include="Models\Repositories\FilesRepository.cs" />
@@ -208,6 +209,7 @@
     <Compile Include="Models\Repositories\ThesisRepository.cs" />
     <Compile Include="Models\Repositories\UserProfilesRepository.cs" />
     <Compile Include="Models\SystemDatabaseInitializer.cs" />
+    <Compile Include="Models\TeacherModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
