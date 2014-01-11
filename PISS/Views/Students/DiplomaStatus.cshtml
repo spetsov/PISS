@@ -57,6 +57,13 @@ else
                     <p>@this.Model.Grade</p>
                 </li>
             }
+            @if (this.Model.GraduationDate != null)
+            {
+                <li>
+                    <h3>Graduation Date:</h3>
+                    <p>@this.Model.GraduationDate</p>
+                </li>
+            }
             @if (this.Model.ReviewFile != null)
             {
                 <li>

@@ -46,14 +46,14 @@ namespace PISS.Models
 
         public DateTime? DefenceDate { get; set; }
 
+        public DateTime? GraduationDate { get; set; }
+
         [Display(Name = "Grade")]
         public int? Grade { get; set; }
 
         public int StudentId { get; set; }
         [ForeignKey("StudentId")]
         public UserProfile Student { get; set; }
-
-
 
         public int? АssignmentFileId { get; set; }
         [ForeignKey("АssignmentFileId")]

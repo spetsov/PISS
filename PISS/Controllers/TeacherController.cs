@@ -107,6 +107,14 @@ namespace PISS.Controllers
                     .FirstOrDefault(i => i.Id == incomingDiploma.Diploma.Id);
 
                 diploma.DefenceDate = incomingDiploma.Diploma.DefenceDate;
+                if (incomingDiploma.Diploma.Grade != null && incomingDiploma.Diploma.Grade != 2)
+                {
+                    diploma.GraduationDate = DateTime.Now;
+                }
+                else
+                {
+                    diploma.GraduationDate = null;
+                }
                 diploma.Grade = incomingDiploma.Diploma.Grade;
                 if (files != null && files.Count() > 0)
                 {
