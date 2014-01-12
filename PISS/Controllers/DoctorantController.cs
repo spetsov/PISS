@@ -47,6 +47,17 @@ namespace PISS.Controllers
                             .Include("LeadTeachers").Include("LeadTeachers.Teacher")
                             .Include("Reviewer")
                             .Where(d => d.DoctorantId == doctorantId).FirstOrDefault();
+
+                if (model == null)
+                {
+                    var currentUserId = WebSecurity.GetUserId(User.Identity.Name);
+                    model = new Doctorate()
+                    {
+                        DoctorantId = currentUserId
+                    };
+                    repo.Add(model);
+                    repo.SaveChanges();
+                }
             }
 
             return View(model);
