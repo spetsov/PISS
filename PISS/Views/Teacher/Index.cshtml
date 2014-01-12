@@ -8,6 +8,14 @@
         columns.Bound(d => d.Grade);
         columns.Bound(d => d.GraduationDate);
         columns.Bound(d => d.ReviewerEmail).Title("Reviewer");
+        columns
+            .Bound(d => d.LeadTeachersEmails)
+            .Title("Lead Teachers")
+            .ClientTemplate("#=printSubType(LeadTeachersEmails)#");
+        columns
+            .Bound(d => d.DefenceCommisionMembersEmails)
+            .Title("Defence commision members")
+            .ClientTemplate("#=printSubType(DefenceCommisionMembersEmails)#");
         columns.Template(@<text></text>).ClientTemplate("<a class='k-button k-button-icontext' href='" + Url.Action("Diploma", "Teacher") + "?studentId=#=StudentId#'>Details</a>");
     })
     .Filterable()
@@ -22,4 +30,15 @@
             })
             .Read(read => read.Action("GetAll", "Teacher")))
 )
+
+<script type="text/javascript">
+    function printSubType(data) {
+        var result = "";
+        var j = data.length;
+        for(var i = 0; i < j; i++) {
+            result += data[i] + "<br/>";
+        }
+        return result;
+    }
+</script>
 

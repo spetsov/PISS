@@ -33,6 +33,8 @@ namespace PISS.Models
         public int? Grade { get; set; }
         public DateTime? GraduationDate { get; set; }
         public string ReviewerEmail { get; set; }
+        public List<string> LeadTeachersEmails { get; set; }
+        public List<string> DefenceCommisionMembersEmails { get; set; }
 
     }
 }

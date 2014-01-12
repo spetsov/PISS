@@ -215,19 +215,34 @@ namespace PISS.Controllers
             List<GridDiplomaViewModel> list = new List<GridDiplomaViewModel>();
             using (DiplomasRepository repo = new DiplomasRepository())
             {
-                var diplomas = repo.Include("Student").Include("Reviewer").OrderByDescending(d => d.Id).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
+                var diplomas = repo.Include("Student").Include("Reviewer").Include("DefenceCommisionMembers")
+                    .Include("DefenceCommisionMembers.Member").Include("LeadTeachers").Include("LeadTeachers.Teacher")
+                    .OrderByDescending(d => d.Id).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
                 foreach (var diploma in diplomas)
                 {
-                    list.Add(new GridDiplomaViewModel()
+                    var viewModel = new GridDiplomaViewModel()
                     {
-                          Id = diploma.Id,
-                          StudentId = diploma.StudentId,
-                          Approved = diploma.Approved,
-                          Grade = diploma.Grade,
-                          GraduationDate = diploma.GraduationDate,
-                          ReviewerEmail = diploma.Reviewer != null ? diploma.Reviewer.Email : String.Empty,
-                          StudenEmail = diploma.Student != null ? diploma.Student.Email : String.Empty
-                    });
+                        Id = diploma.Id,
+                        StudentId = diploma.StudentId,
+                        Approved = diploma.Approved,
+                        Grade = diploma.Grade,
+                        LeadTeachersEmails = new List<string>(),
+                        DefenceCommisionMembersEmails = new List<string>(),
+                        GraduationDate = diploma.GraduationDate,
+                        ReviewerEmail = diploma.Reviewer != null ? diploma.Reviewer.Email : String.Empty,
+                        StudenEmail = diploma.Student != null ? diploma.Student.Email : String.Empty
+                    };
+                    
+                    foreach (var item in diploma.LeadTeachers)
+                    {
+                        viewModel.LeadTeachersEmails.Add(item.Teacher.Email);
+                    }
+                    foreach (var item in diploma.DefenceCommisionMembers)
+                    {
+                        viewModel.DefenceCommisionMembersEmails.Add(item.Member.Email);
+                    }
+
+                    list.Add(viewModel);
                 }
             }
             return list;
