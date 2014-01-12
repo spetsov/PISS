@@ -17,7 +17,7 @@ else
                 <li>
                     <h3>Assignment status:</h3>
                     <h4 class="status">@Model.Approved</h4>
-                    <p class="teacher-notes"> Notes: <span> @Html.Encode(Model.ReviewNotes)</span></p>
+                    <p class="teacher-notes"> Notes: <span> @Model.ReviewNotes</span></p>
                     <p>by @this.Model.Approver.Email</p>
                 </li>
             }

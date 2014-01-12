@@ -44,13 +44,13 @@
         <div class="panel-body">
 
             <h4>Text:</h4>
-            <p>@Html.Encode(this.Model.Diploma.Thesis.Text)</p>
+            <p>this.Model.Diploma.Thesis.Text</p>
 
             <h4>Summary in English:</h4>
-            <p>@Html.Encode(this.Model.Diploma.Thesis.Summary_EN)</p>
+            <p>this.Model.Diploma.Thesis.Summary_EN</p>
 
             <h4>Summary in Bulgarian:</h4>
-            <p>@Html.Encode(this.Model.Diploma.Thesis.Summary_BG)</p>
+            <p>this.Model.Diploma.Thesis.Summary_BG</p>
 
             <h4>Source code:</h4>
             <a href='@Url.Action("Index", "Download", new { id = this.Model.Diploma.Thesis.SourceCodeFile.Id })' target = "_blank">@this.Model.Diploma.Thesis.SourceCodeFile.FileName</a>

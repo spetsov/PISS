@@ -8,6 +8,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using WebMatrix.WebData;
+using PISS.Helpers;
 
 namespace PISS.Controllers
 {
@@ -76,7 +77,7 @@ namespace PISS.Controllers
             var currentUserId = WebSecurity.GetUserId(User.Identity.Name);
             using (DiplomasRepository repo = new DiplomasRepository())
             {
-                var diploma = repo.GetSet().Find(incomingDiploma.Diploma.Id);
+                var diploma = repo.Include("Student").FirstOrDefault(d => d.Id == incomingDiploma.Diploma.Id);
                 if (!string.IsNullOrEmpty(incomingDiploma.Diploma.ReviewNotes))
                 {
                     diploma.ReviewNotes = incomingDiploma.Diploma.ReviewNotes;
@@ -91,8 +92,10 @@ namespace PISS.Controllers
                 repo.Update(diploma);
                 repo.SaveChanges();
 
+                MailHelper.SendMail(diploma.Student.Email, "Assignment approved", "Your assignment has been approved!");
+
                 return RedirectToAction("Diploma", new { studentId = diploma.StudentId });
-                // TODO: Send Email
+               
             }
         }
 
@@ -163,13 +166,13 @@ namespace PISS.Controllers
             var currentUserId = WebSecurity.GetUserId(User.Identity.Name);
             using (WorkExperienceRepository repo = new WorkExperienceRepository())
             {
-                var workExperience = repo.GetSet().Find(model.Id);
+                var workExperience = repo.Include("Student").FirstOrDefault(w => w.Id == model.Id);
                     workExperience.SuggestionApproved = true;
 
                 repo.Update(workExperience);
                 repo.SaveChanges();
 
-                // TODO: Send Email
+                MailHelper.SendMail(workExperience.Student.Email, "Work experience suggestion approved", "Your work experience suggestion has been approved!");
                 return RedirectToAction("WorkExperience", new { studentId = workExperience.StudentId });
 
             }
@@ -181,13 +184,13 @@ namespace PISS.Controllers
             var currentUserId = WebSecurity.GetUserId(User.Identity.Name);
             using (WorkExperienceRepository repo = new WorkExperienceRepository())
             {
-                var workExperience = repo.GetSet().Find(model.Id);
+                var workExperience = repo.Include("Student").FirstOrDefault(w => w.Id == model.Id);
                 workExperience.GradeApproved = true;
 
                 repo.Update(workExperience);
                 repo.SaveChanges();
 
-                // TODO: Send Email
+                MailHelper.SendMail(workExperience.Student.Email, "Work experience grade approved", "Your work experience grade has been approved!");
                 return RedirectToAction("WorkExperience", new { studentId = workExperience.StudentId });
 
             }

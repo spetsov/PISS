@@ -21,26 +21,28 @@ namespace PISS.Controllers
             using (DiplomasRepository repo = new DiplomasRepository())
             {
                 model = repo.Include("АssignmentFile").Where(d => d.StudentId == currentUserId).FirstOrDefault();
-                if (model == null)
-                {
-                    model = new Diploma()
-                    {
-                        StudentId = currentUserId
-                    };
-                    repo.Add(model);
-                    repo.SaveChanges();
-                }
             }
             return View(model);
         }
 
-        public ActionResult UploadFiles(IEnumerable<HttpPostedFileBase> files, Diploma model)
+        public ActionResult UploadFiles(IEnumerable<HttpPostedFileBase> files, int diplomaId)
         {
             if (files != null && files.Count() > 0)
             {
                 TempData["UploadedFiles"] = GetFileInfo(files).ToList();
                 using (DiplomasRepository repo = new DiplomasRepository())
                 {
+                    var model = repo.GetSet().Find(diplomaId);
+                    if (model == null)
+                    {
+                        var currentUserId = WebSecurity.GetUserId(User.Identity.Name);
+                        model = new Diploma()
+                        {
+                            StudentId = currentUserId
+                        };
+                        repo.Add(model);
+                        repo.SaveChanges();
+                    }
                     repo.UploadFile(files.First(), model, "AssignmentFile");
                     repo.Update(model);
                     repo.SaveChanges();
@@ -157,8 +159,9 @@ namespace PISS.Controllers
                     using (WorkExperienceRepository repo = new WorkExperienceRepository())
                     {
                         WorkExperience model = repo.GetSet().Find(modelId);
-                        if (modelId == 0)
+                        if (model == null)
                         {
+                            model = new WorkExperience();
                             model.Student = repo.Context.UserProfiles.Find(studentId);
                             model.StudentId = studentId;
                             repo.Add(model);

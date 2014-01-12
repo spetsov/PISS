@@ -1,5 +1,7 @@
-﻿<div class="panel panel-success doc-upload">
-    @if (this.Model.АssignmentFile != null)
+﻿@model PISS.Models.Diploma
+
+<div class="panel panel-success doc-upload">
+    @if (this.Model != null && this.Model.АssignmentFile != null)
     {
         <div class="panel-heading">
             <h4>Your uploaded assignments:</h4>
@@ -12,7 +14,7 @@
             <h4 class="alert alert-warning">Upload your assignment: (CAUTION - Once uploaded, you cannot change it!)</h4>
      
      
-            <form method="post" action='@Url.Action("UploadFiles", this.Model)'>
+            <form method="post" action='@Url.Action("UploadFiles", new { diplomaId = 0 })'>
                 <div>
                     @(Html.Kendo().Upload()
             .Name("files").Multiple(false)

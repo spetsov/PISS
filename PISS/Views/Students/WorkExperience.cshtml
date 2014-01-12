@@ -50,7 +50,7 @@
             <h4>Upload your work experience suggestion: (CAUTION - Once uploaded, you cannot change it!)</h4>
         </div>
         <div class="panel-body">
-            <form method="post" action='@Url.Action("UploadWorkExperienceSuggestion", new { modelId = this.Model.Id, filePropertyName = "SuggestionFile" })' style="width:45%">
+            <form method="post" action='@Url.Action("UploadWorkExperienceSuggestion", new { modelId = 0, filePropertyName = "SuggestionFile" })' style="width:45%">
                 <div>
                     @(Html.Kendo().Upload()
             .Name("files").Multiple(false)
