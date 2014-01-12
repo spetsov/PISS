@@ -20,7 +20,7 @@ namespace PISS.Controllers
             var currentUserId = WebSecurity.GetUserId(User.Identity.Name);
             using (var repo = new DoctoratesRepository())
             {
-                model = repo.Include("GeneralWorkPlanFile").Include("PersonalWorkPlanFile").
+                model = repo.Include("GeneralWorkPlanFile").Include("PersonalWorkPlanFile").Include("YearByYearPlanFile").
                     Where(d => d.DoctorantId == currentUserId).FirstOrDefault();
                 if (model == null)
                 {
@@ -51,6 +51,12 @@ namespace PISS.Controllers
 
             return View(model);
         }
+
+        public ActionResult UploadYearByYearWorkPlan(IEnumerable<HttpPostedFileBase> yearByYearPlanFiles, Doctorate model)
+        {
+            return this.UploadFiles(yearByYearPlanFiles, model, "YearByYearPlan");
+        }
+
 
         public ActionResult UploadGeneralPlan(IEnumerable<HttpPostedFileBase> generalPlanFiles, Doctorate model)
         {

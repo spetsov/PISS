@@ -199,6 +199,10 @@ namespace PISS.Models
         [ForeignKey("PersonalWorkPlanFileId")]
         public File PersonalWorkPlanFile { get; set; }
 
+        public int? YearByYearPlanFileId { get; set; }
+        [ForeignKey("YearByYearPlanFileId")]
+        public File YearByYearPlanFile { get; set; }
+
         public int? AttestationFileId { get; set; }
         [ForeignKey("AttestationFileId")]
         public File AttestationFile { get; set; }

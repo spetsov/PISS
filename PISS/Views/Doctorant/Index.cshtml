@@ -57,3 +57,32 @@ else
          </div>
     </div>
 }
+
+@if (this.Model.YearByYearPlanFile != null)
+{
+    <div class="panel panel-success short left">
+        <div class="panel-heading long">
+            <h3>Your uploaded Year by Year Work Plan:</h3>
+      
+            <a href='@Url.Action("Index", "Download", new { id = this.Model.YearByYearPlanFile.Id })' target = "_blank">@this.Model.YearByYearPlanFile.FileName</a>
+        </div>
+    </div>
+}
+else
+{
+    <div class="panel panel-success left">
+        <div class="panel-heading">
+            <h3>Here you can upload your Year by Year Work Plan</h3>
+        </div>
+        <div class="panel-body">
+            <form method="post" action='@Url.Action("UploadYearByYearWorkPlan", this.Model)'>
+                <div>
+                    @(Html.Kendo().Upload()
+                        .Name("yearByYearPlanFiles").Multiple(false)
+                    )
+                        <input type="submit" value="Submit" class="k-button" />
+                </div>
+            </form>
+        </div>
+    </div>
+}

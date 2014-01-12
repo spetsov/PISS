@@ -85,6 +85,7 @@ namespace PISS.Controllers
                 var doctorate = repo.Include("Doctorant")
                     .Include("GeneralWorkPlanFile")
                     .Include("PersonalWorkPlanFile")
+                    .Include("YearByYearPlanFile")
                     .Include("LeadTeachers")
                     .Include("Consultants")
                     .Where(d => d.Doctorant.UserId == doctorantId).Single();

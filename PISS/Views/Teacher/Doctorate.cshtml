@@ -23,6 +23,14 @@
                     <a class="diploma-download" href='@Url.Action("Index", "Download", new { id = this.Model.Doctorate.PersonalWorkPlanFileId })' target = "_blank">@this.Model.Doctorate.PersonalWorkPlanFile.FileName</a>
                 </div>
             }   
+            
+            if (this.Model.Doctorate.YearByYearPlanFile != null)
+            {
+                <div>
+                    <p>Year by year work plan:</p>
+                    <a class="diploma-download" href='@Url.Action("Index", "Download", new { id = this.Model.Doctorate.YearByYearPlanFileId })' target = "_blank">@this.Model.Doctorate.YearByYearPlanFile.FileName</a>
+                </div>
+            }   
         }
 
         @if (this.Model.Doctorate.GeneralWorkPlanFile != null && this.Model.Doctorate.PersonalWorkPlanFile != null)
