@@ -201,6 +201,7 @@
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\DbModels.cs" />
     <Compile Include="Models\DiplomaModels.cs" />
+    <Compile Include="Models\DoctorateViewModel.cs" />
     <Compile Include="Models\Repositories\ConsultantsRepository.cs" />
     <Compile Include="Models\Repositories\WorkExperienceRepository.cs" />
     <Compile Include="Models\Repositories\DoctoratesRepository.cs" />
@@ -389,13 +390,14 @@
     <Content Include="Views\Account\RegistrationSuccessful.cshtml" />
     <Content Include="Views\Doctorant\Index.cshtml" />
     <Content Include="Views\Students\DiplomaStatus.cshtml" />
-    <Content Include="Views\Doctorant\Leader.cshtml">
-      <SubType>Code</SubType>
-    </Content>
     <Content Include="Views\Shared\LeaderResult.cshtml" />
     <Content Include="Views\Students\WorkExperience.cshtml" />
     <Content Include="Views\Teacher\AllWorkExperience.cshtml" />
     <Content Include="Views\Teacher\WorkExperience.cshtml" />
+    <Content Include="Views\Teacher\Doctorants.cshtml" />
+    <Content Include="Views\Teacher\Doctorate.cshtml">
+      <SubType>Code</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

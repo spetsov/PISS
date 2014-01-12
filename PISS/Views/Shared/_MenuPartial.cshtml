@@ -23,11 +23,11 @@
         @if (Roles.IsUserInRole("Doctorant"))
         {
             <li>@Html.ActionLink("Work Plan", "Index", "Doctorant")</li>
-            <li>@Html.ActionLink("Science Leader", "Leader", "Doctorant" )</li>
         }
         @if (Roles.IsUserInRole("Teacher"))
         {
             <li>@Html.ActionLink("Students diplomas", "Index", "Teacher")</li>
+            <li>@Html.ActionLink("Doctorants doctorates", "Doctorants", "Teacher")</li>
             <li>@Html.ActionLink("Work Experience Requests", "AllWorkExperience", "Teacher")</li>
         }
     </ul>

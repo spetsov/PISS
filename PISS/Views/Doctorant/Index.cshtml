@@ -1,53 +1,59 @@
-﻿<div class="panel panel-success left">
-            <div class="panel-heading">
-              <h3>Here you can upload your General Work Plan</h3>
-            </div>
-            <div class="panel-body">
-<form method="post" action='@Url.Action("UploadGeneralPlan", this.Model)'>
-    <div>
-        @(Html.Kendo().Upload()
-            .Name("generalPlanFiles").Multiple(false)
-        )
-            <input type="submit" value="Submit" class="k-button" />
-    </div>
-</form>
- </div>
- </div>
-    <div class="panel panel-success right">
-          
-<div class="panel-heading">
-<h3>Here you can upload your Personal Work Plan</h3>
-</div>
-          <div class="panel-body">
-<form method="post" action='@Url.Action("UploadPersonalPlan", this.Model)' >
-    <div>
-        @(Html.Kendo().Upload()
-            .Name("personalPlanFiles").Multiple(false)
-        )
-            <input type="submit" value="Submit" class="k-button" />   
-             </div>
-</form>
-              </div>
-</div>
-@if (this.Model.GeneralWorkPlanFile != null)
+﻿@if (this.Model.GeneralWorkPlanFile != null)
 {
-     <div class="panel panel-success short left">
-    <div class="panel-heading long">
-    <h3>Your uploaded General Work Plan:</h3>
+    <div class="panel panel-success short left">
+        <div class="panel-heading long">
+            <h3>Your uploaded General Work Plan:</h3>
       
-    <a href='@Url.Action("Index", "Download", new { id = this.Model.GeneralWorkPlanFile.Id })' target = "_blank">@this.Model.GeneralWorkPlanFile.FileName</a>
-  </div>
-</div>
+            <a href='@Url.Action("Index", "Download", new { id = this.Model.GeneralWorkPlanFile.Id })' target = "_blank">@this.Model.GeneralWorkPlanFile.FileName</a>
+        </div>
+    </div>
+}
+else
+{
+    <div class="panel panel-success left">
+        <div class="panel-heading">
+            <h3>Here you can upload your General Work Plan</h3>
+        </div>
+        <div class="panel-body">
+            <form method="post" action='@Url.Action("UploadGeneralPlan", this.Model)'>
+                <div>
+                    @(Html.Kendo().Upload()
+                        .Name("generalPlanFiles").Multiple(false)
+                    )
+                        <input type="submit" value="Submit" class="k-button" />
+                </div>
+            </form>
+        </div>
+    </div>
 }
 
 
 @if (this.Model.PersonalWorkPlanFile != null)
-{ <div class="panel panel-success short right">
-     <div class="panel-heading long">
-    <h3>Your uploaded Personal Work Plan:</h3>
+{ 
+    <div class="panel panel-success short right">
+        <div class="panel-heading long">
+            <h3>Your uploaded Personal Work Plan:</h3>
         
-    <a href='@Url.Action("Index", "Download", new { id = this.Model.PersonalWorkPlanFile.Id })' target = "_blank">@this.Model.PersonalWorkPlanFile.FileName</a>
-          </div>
-</div>
+            <a href='@Url.Action("Index", "Download", new { id = this.Model.PersonalWorkPlanFile.Id })' target = "_blank">@this.Model.PersonalWorkPlanFile.FileName</a>
+        </div>
+    </div>
 }
-
+else
+{
+    <div class="panel panel-success right">
+        <div class="panel-heading">
+            <h3>Here you can upload your Personal Work Plan</h3>
+        </div>
+          
+        <div class="panel-body">
+            <form method="post" action='@Url.Action("UploadPersonalPlan", this.Model)' >
+                <div>
+                    @(Html.Kendo().Upload()
+                        .Name("personalPlanFiles").Multiple(false)
+                    )
+                        <input type="submit" value="Submit" class="k-button" />   
+                 </div>
+            </form>
+         </div>
+    </div>
+}

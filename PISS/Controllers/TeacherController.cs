@@ -20,6 +20,11 @@ namespace PISS.Controllers
             return View();
         }
 
+        public ActionResult Doctorants()
+        {
+            return View();
+        }
+
         public ActionResult AllWorkExperience()
         {
             return View();
@@ -68,6 +73,29 @@ namespace PISS.Controllers
             List<Grade> gradesList = new List<Grade>() { new Grade(null, string.Empty), 
             new Grade(2, "2"), new Grade(3, "3"), new Grade(4, "4"), new Grade(5, "5"), new Grade(6, "6")};
             ViewBag.Grades = gradesList;
+
+            return View(model);
+        }
+
+        public ActionResult Doctorate(int doctorantId)
+        {
+            DoctorateViewModel model = new DoctorateViewModel();
+            using (var repo = new DoctoratesRepository())
+            {
+                var doctorate = repo.Include("Doctorant")
+                    .Include("GeneralWorkPlanFile")
+                    .Include("PersonalWorkPlanFile")
+                    .Include("LeadTeachers")
+                    .Where(d => d.Doctorant.UserId == doctorantId).Single();
+                model.Doctorate = doctorate;
+                model.SelectedLeadTeachersUserIds = doctorate.LeadTeachers != null ?
+                    doctorate.LeadTeachers.Select(x => x.TeacherId.ToString()).ToArray() : Enumerable.Empty<string>().ToArray();
+            }
+            using (UserProfilesRepository repo = new UserProfilesRepository())
+            {
+                var teachers = repo.GetAllMembershipUsersForRole("Teacher").ToList();
+                ViewBag.Users = teachers;
+            }
 
             return View(model);
         }
@@ -148,6 +176,22 @@ namespace PISS.Controllers
             }
         }
 
+        public ActionResult UpdateDoctorate(object a, DoctorateViewModel viewModel)
+        {
+            using (var repo = new DoctoratesRepository())
+            {
+                var doctorate = repo.Include("LeadTeachers")
+                    .FirstOrDefault(i => i.Id == viewModel.Doctorate.Id);
+
+                repo.AddLeadTeachers(viewModel.SelectedLeadTeachersUserIds, doctorate);
+
+                repo.Update(doctorate);
+                repo.SaveChanges();
+
+                return RedirectToAction("Doctorate", new { doctorantId = doctorate.DoctorantId });
+            }
+        }
+
         public ActionResult WorkExperience(int studentId)
         {
             WorkExperience model;
@@ -197,10 +241,16 @@ namespace PISS.Controllers
 
         }
 
-        public ActionResult GetAll([DataSourceRequest]DataSourceRequest request)
+        public ActionResult GetAllDiplomas([DataSourceRequest]DataSourceRequest request)
         {
             var diplomas = this.GetAllDiplomas(request.Page, request.PageSize);
             return Json(diplomas.ToDataSourceResult(request));
+        }
+        
+        public ActionResult GetAllDoctorates([DataSourceRequest]DataSourceRequest request)
+        {
+            var doctorates = this.GetAllDoctorates(request.Page, request.PageSize);
+            return Json(doctorates.ToDataSourceResult(request));
         }
 
         public ActionResult GetWorkExperienceCollection([DataSourceRequest]DataSourceRequest request)
@@ -208,7 +258,6 @@ namespace PISS.Controllers
             var workExperience = this.GetAllWorkExperience(request.Page, request.PageSize);
             return Json(workExperience.ToDataSourceResult(request));
         }
-
 
         private IEnumerable<GridDiplomaViewModel> GetAllDiplomas(int pageIndex, int pageSize)
         {
@@ -246,6 +295,14 @@ namespace PISS.Controllers
                 }
             }
             return list;
+        }
+
+        private IEnumerable<Doctorate> GetAllDoctorates(int pageIndex, int pageSize)
+        {
+            using (var repo = new DoctoratesRepository())
+            {
+                return repo.Include("Doctorant").OrderByDescending(d => d.Id).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
+            }
         }
 
         private IEnumerable<WorkExperience> GetAllWorkExperience(int pageIndex, int pageSize)

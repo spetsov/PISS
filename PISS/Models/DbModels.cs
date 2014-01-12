@@ -201,11 +201,10 @@ namespace PISS.Models
 
         public int DoctorantId { get; set; }
         [ForeignKey("DoctorantId")]
-        public UserProfile Doctorant { get; set; } 
+        public UserProfile Doctorant { get; set; }
 
-        public int? LeadTeacherId { get; set; }
-        [ForeignKey("LeadTeacherId")]
-        public UserProfile LeadTeacher { get; set; }
+        public ICollection<Consultant> Consultants { get; set; }
+        public ICollection<LeadTeacher> LeadTeachers { get; set; }
     }
     #endregion
 

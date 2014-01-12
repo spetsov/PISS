@@ -50,5 +50,30 @@ namespace PISS.Models.Repositories
                 this.Update(doctorate);
             }
         }
+
+        public void AddLeadTeachers(string[] userIds, Doctorate doctorate)
+        {
+            if (doctorate.LeadTeachers == null)
+            {
+                doctorate.LeadTeachers = new List<LeadTeacher>();
+            }
+            doctorate.LeadTeachers.Clear();
+            foreach (var userId in userIds)
+            {
+                int userIdParsed = int.Parse(userId);
+                var leadTeacher = doctorate.LeadTeachers.Where(c => c.TeacherId == userIdParsed).FirstOrDefault();
+                if (leadTeacher == null)
+                {
+                    var user = this.Context.UserProfiles.Where(u => u.UserId == userIdParsed).FirstOrDefault();
+                    leadTeacher = new LeadTeacher()
+                    {
+                        Teacher = user,
+                        TeacherId = user.UserId
+                    };
+                    this.Context.LeadTeachers.Add(leadTeacher);
+                    doctorate.LeadTeachers.Add(leadTeacher);
+                }
+            }
+        }
     }
 }

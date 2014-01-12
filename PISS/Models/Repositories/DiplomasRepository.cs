@@ -40,6 +40,7 @@ namespace PISS.Models.Repositories
             {
                 diploma.LeadTeachers = new List<LeadTeacher>();
             }
+            diploma.LeadTeachers.Clear();
             foreach (var userId in userIds)
             {
                 int userIdParsed = int.Parse(userId);
