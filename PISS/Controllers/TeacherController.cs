@@ -86,10 +86,13 @@ namespace PISS.Controllers
                     .Include("GeneralWorkPlanFile")
                     .Include("PersonalWorkPlanFile")
                     .Include("LeadTeachers")
+                    .Include("Consultants")
                     .Where(d => d.Doctorant.UserId == doctorantId).Single();
                 model.Doctorate = doctorate;
                 model.SelectedLeadTeachersUserIds = doctorate.LeadTeachers != null ?
                     doctorate.LeadTeachers.Select(x => x.TeacherId.ToString()).ToArray() : Enumerable.Empty<string>().ToArray();
+                model.SelectedConsultantsUserIds = doctorate.Consultants != null ?
+                    doctorate.Consultants.Select(x => x.TeacherId.ToString()).ToArray() : Enumerable.Empty<string>().ToArray();
             }
             using (UserProfilesRepository repo = new UserProfilesRepository())
             {
@@ -152,11 +155,7 @@ namespace PISS.Controllers
                     diploma.Reviewer = repo.Context.UserProfiles.Find(currentUserId);
                 }
 
-                if (incomingDiploma.SelectedConsultantsUserIds != null
-                    && incomingDiploma.SelectedConsultantsUserIds.Length > 0)
-                {
-                    repo.AddConsultants(incomingDiploma.SelectedConsultantsUserIds, diploma);
-                }
+                repo.AddConsultants(incomingDiploma.SelectedConsultantsUserIds, diploma);
 
                 if (incomingDiploma.SelectedDefenceCommisionMembersUserIds != null
                     && incomingDiploma.SelectedDefenceCommisionMembersUserIds.Length > 0)
@@ -164,11 +163,7 @@ namespace PISS.Controllers
                     repo.AddDefenceMembers(incomingDiploma.SelectedDefenceCommisionMembersUserIds, diploma);
                 }
 
-                if (incomingDiploma.SelectedLeadTeachersUserIds != null
-                    && incomingDiploma.SelectedLeadTeachersUserIds.Length > 0)
-                {
-                    repo.AddLeadTeachers(incomingDiploma.SelectedLeadTeachersUserIds, diploma);
-                }
+                repo.AddLeadTeachers(incomingDiploma.SelectedLeadTeachersUserIds, diploma);
 
                 repo.Update(diploma);
                 repo.SaveChanges();
@@ -180,9 +175,10 @@ namespace PISS.Controllers
         {
             using (var repo = new DoctoratesRepository())
             {
-                var doctorate = repo.Include("LeadTeachers")
+                var doctorate = repo.Include("LeadTeachers").Include("Consultants")
                     .FirstOrDefault(i => i.Id == viewModel.Doctorate.Id);
 
+                repo.AddConsultants(viewModel.SelectedConsultantsUserIds, doctorate);
                 repo.AddLeadTeachers(viewModel.SelectedLeadTeachersUserIds, doctorate);
 
                 repo.Update(doctorate);

@@ -11,10 +11,13 @@ namespace PISS.Models.Repositories
     {
         public void AddConsultants(string[] userIds, Diploma diploma)
         {
-                if (diploma.Consultants == null)
-                {
-                    diploma.Consultants = new List<Consultant>();
-                }
+            if (diploma.Consultants == null)
+            {
+                diploma.Consultants = new List<Consultant>();
+            }
+            diploma.Consultants.Clear();
+            if (userIds != null)
+            {
                 foreach (var userId in userIds)
                 {
                     int userIdParsed = int.Parse(userId);
@@ -31,7 +34,7 @@ namespace PISS.Models.Repositories
                         diploma.Consultants.Add(consultant);
                     }
                 }
-
+            }
         }
 
         public void AddLeadTeachers(string[] userIds, Diploma diploma)
@@ -41,23 +44,25 @@ namespace PISS.Models.Repositories
                 diploma.LeadTeachers = new List<LeadTeacher>();
             }
             diploma.LeadTeachers.Clear();
-            foreach (var userId in userIds)
+            if (userIds != null)
             {
-                int userIdParsed = int.Parse(userId);
-                var leadTeacher = diploma.LeadTeachers.Where(c => c.TeacherId == userIdParsed).FirstOrDefault();
-                if (leadTeacher == null)
+                foreach (var userId in userIds)
                 {
-                    var user = this.Context.UserProfiles.Where(u => u.UserId == userIdParsed).FirstOrDefault();
-                    leadTeacher = new LeadTeacher()
+                    int userIdParsed = int.Parse(userId);
+                    var leadTeacher = diploma.LeadTeachers.Where(c => c.TeacherId == userIdParsed).FirstOrDefault();
+                    if (leadTeacher == null)
                     {
-                        Teacher = user,
-                        TeacherId = user.UserId
-                    };
-                    this.Context.LeadTeachers.Add(leadTeacher);
-                    diploma.LeadTeachers.Add(leadTeacher);
+                        var user = this.Context.UserProfiles.Where(u => u.UserId == userIdParsed).FirstOrDefault();
+                        leadTeacher = new LeadTeacher()
+                        {
+                            Teacher = user,
+                            TeacherId = user.UserId
+                        };
+                        this.Context.LeadTeachers.Add(leadTeacher);
+                        diploma.LeadTeachers.Add(leadTeacher);
+                    }
                 }
             }
-
         }
 
         public void AddDefenceMembers(string[] userIds, Diploma diploma)

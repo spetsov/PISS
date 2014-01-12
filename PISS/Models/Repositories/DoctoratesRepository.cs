@@ -58,20 +58,52 @@ namespace PISS.Models.Repositories
                 doctorate.LeadTeachers = new List<LeadTeacher>();
             }
             doctorate.LeadTeachers.Clear();
-            foreach (var userId in userIds)
+            if (userIds != null)
             {
-                int userIdParsed = int.Parse(userId);
-                var leadTeacher = doctorate.LeadTeachers.Where(c => c.TeacherId == userIdParsed).FirstOrDefault();
-                if (leadTeacher == null)
+                foreach (var userId in userIds)
                 {
-                    var user = this.Context.UserProfiles.Where(u => u.UserId == userIdParsed).FirstOrDefault();
-                    leadTeacher = new LeadTeacher()
+                    int userIdParsed = int.Parse(userId);
+                    var leadTeacher = doctorate.LeadTeachers.Where(c => c.TeacherId == userIdParsed).FirstOrDefault();
+                    if (leadTeacher == null)
                     {
-                        Teacher = user,
-                        TeacherId = user.UserId
-                    };
-                    this.Context.LeadTeachers.Add(leadTeacher);
-                    doctorate.LeadTeachers.Add(leadTeacher);
+                        var user = this.Context.UserProfiles.Where(u => u.UserId == userIdParsed).FirstOrDefault();
+                        leadTeacher = new LeadTeacher()
+                        {
+                            Teacher = user,
+                            TeacherId = user.UserId
+                        };
+                        this.Context.LeadTeachers.Add(leadTeacher);
+                        doctorate.LeadTeachers.Add(leadTeacher);
+                    }
+                }
+            }
+        }
+
+        public void AddConsultants(string[] userIds, Doctorate doctorate)
+        {
+            if (doctorate.Consultants == null)
+            {
+                doctorate.Consultants = new List<Consultant>();
+            }
+            doctorate.Consultants.Clear();
+
+            if (userIds != null)
+            {
+                foreach (var userId in userIds)
+                {
+                    int userIdParsed = int.Parse(userId);
+                    var consultant = doctorate.Consultants.Where(c => c.TeacherId == userIdParsed).FirstOrDefault();
+                    if (consultant == null)
+                    {
+                        var user = this.Context.UserProfiles.Where(u => u.UserId == userIdParsed).FirstOrDefault();
+                        consultant = new Consultant()
+                        {
+                            Teacher = user,
+                            TeacherId = user.UserId
+                        };
+                        this.Context.Consultants.Add(consultant);
+                        doctorate.Consultants.Add(consultant);
+                    }
                 }
             }
         }

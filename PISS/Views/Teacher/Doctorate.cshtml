@@ -42,6 +42,14 @@
                                 .DataValueField("UserId")
                                 .DataTextField("Email"))
                         </li>
+
+                        <li>
+                            @Html.LabelFor(m => m.Doctorate.Consultants)
+                            @(Html.Kendo().MultiSelectFor(x => x.SelectedConsultantsUserIds)
+                                .BindTo(ViewBag.Users)
+                                .DataValueField("UserId")
+                                .DataTextField("Email"))
+                        </li>
                     </ul>
                     <input type="submit" value="Submit" class="k-button" />
                 </fieldset>
