@@ -157,11 +157,7 @@ namespace PISS.Controllers
 
                 repo.AddConsultants(incomingDiploma.SelectedConsultantsUserIds, diploma);
 
-                if (incomingDiploma.SelectedDefenceCommisionMembersUserIds != null
-                    && incomingDiploma.SelectedDefenceCommisionMembersUserIds.Length > 0)
-                {
-                    repo.AddDefenceMembers(incomingDiploma.SelectedDefenceCommisionMembersUserIds, diploma);
-                }
+                repo.AddDefenceMembers(incomingDiploma.SelectedDefenceCommisionMembersUserIds, diploma);
 
                 repo.AddLeadTeachers(incomingDiploma.SelectedLeadTeachersUserIds, diploma);
 

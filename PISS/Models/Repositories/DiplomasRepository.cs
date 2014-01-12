@@ -71,23 +71,26 @@ namespace PISS.Models.Repositories
             {
                 diploma.DefenceCommisionMembers = new List<DefenceCommisionMember>();
             }
-            foreach (var userId in userIds)
+            diploma.DefenceCommisionMembers.Clear();
+            if (userIds != null)
             {
-                int userIdParsed = int.Parse(userId);
-                var defenceCommisionMember = diploma.DefenceCommisionMembers.Where(c => c.MemberId == userIdParsed).FirstOrDefault();
-                if (defenceCommisionMember == null)
+                foreach (var userId in userIds)
                 {
-                    var user = this.Context.UserProfiles.Where(u => u.UserId == userIdParsed).FirstOrDefault();
-                    defenceCommisionMember = new DefenceCommisionMember()
+                    int userIdParsed = int.Parse(userId);
+                    var defenceCommisionMember = diploma.DefenceCommisionMembers.Where(c => c.MemberId == userIdParsed).FirstOrDefault();
+                    if (defenceCommisionMember == null)
                     {
-                         Member = user,
-                         MemberId = user.UserId
-                    };
-                    this.Context.DefenceCommisionsMembers.Add(defenceCommisionMember);
-                    diploma.DefenceCommisionMembers.Add(defenceCommisionMember);
+                        var user = this.Context.UserProfiles.Where(u => u.UserId == userIdParsed).FirstOrDefault();
+                        defenceCommisionMember = new DefenceCommisionMember()
+                        {
+                            Member = user,
+                            MemberId = user.UserId
+                        };
+                        this.Context.DefenceCommisionsMembers.Add(defenceCommisionMember);
+                        diploma.DefenceCommisionMembers.Add(defenceCommisionMember);
+                    }
                 }
             }
-
         }
 
         public void UploadFile(HttpPostedFileBase file, Diploma diploma, string propertyName)
