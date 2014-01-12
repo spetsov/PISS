@@ -210,12 +210,27 @@ namespace PISS.Controllers
         }
 
 
-        private IEnumerable<Diploma> GetAllDiplomas(int pageIndex, int pageSize)
+        private IEnumerable<GridDiplomaViewModel> GetAllDiplomas(int pageIndex, int pageSize)
         {
+            List<GridDiplomaViewModel> list = new List<GridDiplomaViewModel>();
             using (DiplomasRepository repo = new DiplomasRepository())
             {
-                return repo.Include("Student").Include("Reviewer").OrderByDescending(d => d.Id).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
+                var diplomas = repo.Include("Student").Include("Reviewer").OrderByDescending(d => d.Id).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
+                foreach (var diploma in diplomas)
+                {
+                    list.Add(new GridDiplomaViewModel()
+                    {
+                          Id = diploma.Id,
+                          StudentId = diploma.StudentId,
+                          Approved = diploma.Approved,
+                          Grade = diploma.Grade,
+                          GraduationDate = diploma.GraduationDate,
+                          ReviewerEmail = diploma.Reviewer != null ? diploma.Reviewer.Email : String.Empty,
+                          StudenEmail = diploma.Student != null ? diploma.Student.Email : String.Empty
+                    });
+                }
             }
+            return list;
         }
 
         private IEnumerable<WorkExperience> GetAllWorkExperience(int pageIndex, int pageSize)

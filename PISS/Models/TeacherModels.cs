@@ -23,4 +23,16 @@ namespace PISS.Models
         public int? Value { get; set; }
         public string Display { get; set; }
     }
+
+    public class GridDiplomaViewModel
+    {
+        public int Id { get; set; }
+        public string StudenEmail { get; set; }
+        public int? StudentId { get; set; }
+        public ApprovedStatus Approved { get; set; }
+        public int? Grade { get; set; }
+        public DateTime? GraduationDate { get; set; }
+        public string ReviewerEmail { get; set; }
+
+    }
 }
