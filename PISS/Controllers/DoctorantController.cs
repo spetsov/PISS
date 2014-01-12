@@ -36,6 +36,22 @@ namespace PISS.Controllers
             return View(model);
         }
 
+        public ActionResult DoctorateStatus()
+        {
+            var doctorantId = WebSecurity.GetUserId(User.Identity.Name);
+            Doctorate model;
+            using (var repo = new DoctoratesRepository())
+            {
+                model = repo.Include("AttestationFile")
+                            .Include("Consultants").Include("Consultants.Teacher")
+                            .Include("LeadTeachers").Include("LeadTeachers.Teacher")
+                            .Include("Reviewer")
+                            .Where(d => d.DoctorantId == doctorantId).FirstOrDefault();
+            }
+
+            return View(model);
+        }
+
         public ActionResult UploadGeneralPlan(IEnumerable<HttpPostedFileBase> generalPlanFiles, Doctorate model)
         {
             return this.UploadFiles(generalPlanFiles, model, "GeneralWorkPlan");

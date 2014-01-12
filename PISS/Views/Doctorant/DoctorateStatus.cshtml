@@ -1,0 +1,54 @@
+﻿@model PISS.Models.Doctorate
+
+<div class="panel panel-success diploma-status">
+            <div class="panel-heading">
+@*@if (this.Model == null)
+{
+    <h4>Your assignment is not approved. Please wait for its approval or upload an assignment if you haven't already.</h4>
+}
+else
+{
+    *@
+    <h3>Your doctorate status:</h3>
+    
+    <fieldset>
+        <ul>
+            @if (this.Model.LeadTeachers != null && this.Model.LeadTeachers.Any())
+            {
+                <li>
+                    <h3>Lead Teachers:</h3>
+                    <ul>
+                        @foreach (var leadTeacher in this.Model.LeadTeachers)
+                        {
+                            <li>@leadTeacher.Teacher.Email</li>
+                        }
+                    </ul>
+                </li>
+            }
+            @if (this.Model.Consultants != null && this.Model.Consultants.Count > 0)
+            {
+                <li>
+                    <h3>Consultants:</h3>
+                    <ul>
+                        @foreach (var consultant in this.Model.Consultants)
+                        {
+                            <li>@consultant.Teacher.Email</li>
+                        }
+                    </ul>
+                </li>
+            }
+            @if (this.Model.AttestationFile != null)
+            {
+                <li>
+                    <h3>Attestation:</h3>
+                    <a href='@Url.Action("Index", "Download", new { id = this.Model.AttestationFileId })' target = "_blank">@this.Model.AttestationFile.FileName</a>
+                    <p>by @Model.Reviewer.Email</p>
+                </li>
+            }
+        </ul>
+    </fieldset>
+@*}*@
+
+  </div>
+</div>
+

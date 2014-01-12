@@ -398,6 +398,7 @@
     <Content Include="Views\Teacher\Doctorate.cshtml">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="Views\Doctorant\DoctorateStatus.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

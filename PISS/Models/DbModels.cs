@@ -199,6 +199,14 @@ namespace PISS.Models
         [ForeignKey("PersonalWorkPlanFileId")]
         public File PersonalWorkPlanFile { get; set; }
 
+        public int? AttestationFileId { get; set; }
+        [ForeignKey("AttestationFileId")]
+        public File AttestationFile { get; set; }
+
+        public int? ReviewerId { get; set; }
+        [ForeignKey("ReviewerId")]
+        public UserProfile Reviewer { get; set; }  
+
         public int DoctorantId { get; set; }
         [ForeignKey("DoctorantId")]
         public UserProfile Doctorant { get; set; }

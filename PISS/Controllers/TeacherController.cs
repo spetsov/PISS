@@ -171,7 +171,7 @@ namespace PISS.Controllers
             }
         }
 
-        public ActionResult UpdateDoctorate(object a, DoctorateViewModel viewModel)
+        public ActionResult UpdateDoctorate(IEnumerable<HttpPostedFileBase> files, DoctorateViewModel viewModel)
         {
             using (var repo = new DoctoratesRepository())
             {
@@ -180,6 +180,15 @@ namespace PISS.Controllers
 
                 repo.AddConsultants(viewModel.SelectedConsultantsUserIds, doctorate);
                 repo.AddLeadTeachers(viewModel.SelectedLeadTeachersUserIds, doctorate);
+
+                if (files != null && files.Count() > 0)
+                {
+                    var currentUserId = WebSecurity.GetUserId(User.Identity.Name);
+
+                    repo.UploadFile(files.First(), doctorate, "Attestation");
+                    doctorate.ReviewerId = currentUserId;
+                    doctorate.Reviewer = repo.Context.UserProfiles.Find(currentUserId);
+                }
 
                 repo.Update(doctorate);
                 repo.SaveChanges();

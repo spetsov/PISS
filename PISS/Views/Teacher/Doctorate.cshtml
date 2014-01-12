@@ -50,6 +50,12 @@
                                 .DataValueField("UserId")
                                 .DataTextField("Email"))
                         </li>
+
+                        <li>
+                            <h3>Upload attestation file for the doctorant:</h3>
+                            @(Html.Kendo().Upload()
+                                .Name("files").Multiple(false))
+                        </li>
                     </ul>
                     <input type="submit" value="Submit" class="k-button" />
                 </fieldset>

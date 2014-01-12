@@ -11,7 +11,7 @@ namespace PISS.Models.Repositories
     {
         public void UploadFile(HttpPostedFileBase file, Doctorate doctorate, string propertyName)
         {
-            if (propertyName != "GeneralWorkPlan" && propertyName != "PersonalWorkPlan")
+            if (propertyName != "GeneralWorkPlan" && propertyName != "PersonalWorkPlan" && propertyName != "Attestation")
             {
                 return;
             }
@@ -45,6 +45,11 @@ namespace PISS.Models.Repositories
                 {
                     doctorate.PersonalWorkPlanFile = newFile;
                     doctorate.PersonalWorkPlanFileId = newFile.Id;
+                }
+                if (propertyName == "Attestation")
+                {
+                    doctorate.AttestationFile = newFile;
+                    doctorate.AttestationFileId = newFile.Id;
                 }
 
                 this.Update(doctorate);
