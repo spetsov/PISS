@@ -281,7 +281,9 @@ namespace PISS.Controllers
                         DefenceCommisionMembersEmails = new List<string>(),
                         GraduationDate = diploma.GraduationDate,
                         ReviewerEmail = diploma.Reviewer != null ? diploma.Reviewer.Email : String.Empty,
-                        StudenEmail = diploma.Student != null ? diploma.Student.Email : String.Empty
+                        StudenEmail = diploma.Student != null ? diploma.Student.Email : String.Empty,
+                        StudentFirstName = diploma.Student != null ? diploma.Student.FirstName : string.Empty,
+                        StudentLastName = diploma.Student != null ? diploma.Student.LastName : string.Empty,
                     };
                     
                     foreach (var item in diploma.LeadTeachers)

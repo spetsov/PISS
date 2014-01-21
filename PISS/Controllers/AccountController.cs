@@ -9,6 +9,7 @@ using DotNetOpenAuth.AspNet;
 using Microsoft.Web.WebPages.OAuth;
 using WebMatrix.WebData;
 using PISS.Models;
+using PISS.Models.Repositories;
 
 namespace PISS.Controllers
 {
@@ -83,6 +84,16 @@ namespace PISS.Controllers
                 try
                 {
                     WebSecurity.CreateUserAndAccount(model.Email, model.Password, null, true);
+                    using (var userProfilesRepository = new UserProfilesRepository())
+                    {
+                        var userProfile = userProfilesRepository.GetQuery().Where(x => x.Email == model.Email).Single();
+                        userProfile.FirstName = model.FirstName;
+                        userProfile.LastName = model.LastName;
+
+                        userProfilesRepository.Update(userProfile);
+                        userProfilesRepository.SaveChanges();
+                    }
+
                     Roles.AddUserToRole(model.Email, model.RoleName);
 
                     return RedirectToAction("RegistrationSuccessful");
@@ -275,7 +286,13 @@ namespace PISS.Controllers
                     if (user == null)
                     {
                         // Insert name into the profile table
-                        db.UserProfiles.Add(new UserProfile { Email = model.UserName });
+                        db.UserProfiles.Add(
+                            new UserProfile 
+                            { 
+                                Email = model.UserName, 
+                                FirstName = model.FirstName,
+                                LastName = model.LastName,
+                            });
                         db.SaveChanges();
 
                         OAuthWebSecurity.CreateOrUpdateAccount(provider, providerUserId, model.UserName);

@@ -4,6 +4,8 @@
   .Name("Grid").Columns(columns =>
     {
         columns.Bound(d => d.StudenEmail).Title("Student");
+        columns.Bound(d => d.StudentFirstName).Title("First Name");
+        columns.Bound(d => d.StudentLastName).Title("Last Name");
         columns.Bound(d => d.Approved).Title("Assignment Status");
         columns.Bound(d => d.Grade);
         columns.Bound(d => d.GraduationDate);

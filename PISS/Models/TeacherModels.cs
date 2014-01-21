@@ -28,6 +28,8 @@ namespace PISS.Models
     {
         public int Id { get; set; }
         public string StudenEmail { get; set; }
+        public string StudentFirstName { get; set; }
+        public string StudentLastName { get; set; }
         public int? StudentId { get; set; }
         public ApprovedStatus Approved { get; set; }
         public int? Grade { get; set; }

@@ -4,10 +4,8 @@
   .Name("Grid").Columns(columns =>
     {
         columns.Bound(d => d.Doctorant.Email).Title("Doctorant Email");
-        //columns.Bound(d => d.Approved).Title("Assignment Status");
-        //columns.Bound(d => d.Grade);
-        //columns.Bound(d => d.GraduationDate);
-        //columns.Bound(d => d.Reviewer).ClientTemplate("#=Reviewer == null ? '' : Reviewer.Email#");
+        columns.Bound(d => d.Doctorant.FirstName).Title("First Name");
+        columns.Bound(d => d.Doctorant.LastName).Title("Last Name");
         columns.Template(@<text></text>).ClientTemplate("<a class='k-button k-button-icontext' href='" + Url.Action("Doctorate", "Teacher") + "?doctorantId=#=DoctorantId#'>Details</a>");
     })
     .Filterable()

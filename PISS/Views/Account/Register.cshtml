@@ -31,6 +31,14 @@
                         @Html.PasswordFor(m => m.ConfirmPassword)
                     </li>
                     <li>
+                        @Html.LabelFor(m => m.FirstName)
+                        @Html.TextBoxFor(m => m.FirstName)
+                    </li>
+                    <li>
+                        @Html.LabelFor(m => m.LastName)
+                        @Html.TextBoxFor(m => m.LastName)
+                    </li>
+                    <li>
                         @Html.LabelFor(m => m.RoleName)
                         <ol class="reg-user-type">
                             <li>@Html.RadioButtonFor(m => m.RoleName, "Student") Student</li>
