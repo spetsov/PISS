@@ -1,22 +1,23 @@
 ﻿<h2>All Students:</h2>
 
 @(Html.Kendo().Grid<PISS.Models.GridDiplomaViewModel>()
-  .Name("Grid").Columns(columns =>
+  .Name("Grid") 
+  .ColumnResizeHandleWidth(20).Columns(columns =>
     {
-        columns.Bound(d => d.StudenEmail).Title("Student");
+        columns.Bound(d => d.StudenEmail).Title("Mail");
         columns.Bound(d => d.StudentFirstName).Title("First Name");
         columns.Bound(d => d.StudentLastName).Title("Last Name");
-        columns.Bound(d => d.Approved).Title("Assignment Status");
+        columns.Bound(d => d.Approved).Title("Assignment");
         columns.Bound(d => d.Grade);
         columns.Bound(d => d.GraduationDate);
         columns.Bound(d => d.ReviewerEmail).Title("Reviewer");
         columns
             .Bound(d => d.LeadTeachersEmails)
-            .Title("Lead Teachers")
+            .Title("Leads")
             .ClientTemplate("#=printSubType(LeadTeachersEmails)#");
         columns
             .Bound(d => d.DefenceCommisionMembersEmails)
-            .Title("Defence commision members")
+            .Title("Commision")
             .ClientTemplate("#=printSubType(DefenceCommisionMembersEmails)#");
         columns.Template(@<text></text>).ClientTemplate("<a class='k-button k-button-icontext' href='" + Url.Action("Diploma", "Teacher") + "?studentId=#=StudentId#'>Details</a>");
     })
